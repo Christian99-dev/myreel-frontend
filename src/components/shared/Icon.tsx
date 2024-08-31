@@ -30,7 +30,7 @@ const iconMap: Record<
 
 const Icon = ({
     name,
-    size = 5,
+    size = 7,
     color = "pink_very_light",
   }: {
     name: IconKey;
@@ -38,7 +38,7 @@ const Icon = ({
     color?: "pink_very_light" | "purple_light" | "purple" | "purple_dark";
   }) => {
     const SvgIcon = iconMap[name];
-    return <SvgIcon strokeWidth={20} className={`fs-${size}`} fill={color} />;
+    return <SvgIcon strokeWidth={50} className={`fs-${size}`}  />;
   };
 
 export default Icon
