@@ -1,0 +1,37 @@
+.hero-title {
+  @apply xs:text-[50px]	
+  sm:text-[60px]	
+  md:text-[70px]	
+  lg:text-[80px]	
+  xl:text-[90px]	
+  2xl:text-[116px]	
+  3xl:text-[128px]	
+  4xl:text-[160px];
+}
+.heading-lineheight-hero {
+  @apply leading-[120px] 
+      3xl:leading-[100px] 
+      2xl:leading-[90px]
+      xl:leading-[70px]
+      lg:leading-[65px]
+      md:leading-[55px]
+      sm:leading-[45px];
+}
+.icon-size {
+  @apply xs:!size-[32px]    
+  sm:!size-[32px]  
+  md:!size-[32px]  
+  lg:!size-[34px]  
+  xl:!size-[38px]  
+  2xl:!size-[40px]     
+  3xl:!size-[48px] 
+  4xl:!size-[60px];
+}
+
+.spacing-py-mobile-sections {
+  @apply xs:!py-[60px]    
+  sm:!py-[60px]  
+  md:!py-[68px]  
+  lg:!py-[88px]  
+  xl:!py-[112px];
+}

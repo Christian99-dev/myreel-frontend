@@ -1,0 +1,15 @@
+.fs-10	 { @apply xs:text-[13px]	sm:text-[13px]	md:text-[14px]	lg:text-[14px]	xl:text-[14px]	2xl:text-[15px]	3xl:text-[16px]	4xl:text-[17px]	} 
+.fs-9	 { @apply xs:text-[15px]	sm:text-[15px]	md:text-[17px]	lg:text-[17px]	xl:text-[17px]	2xl:text-[18px]	3xl:text-[19px]	4xl:text-[21px]	} 
+.fs-8	 { @apply xs:text-[16px]	sm:text-[16px]	md:text-[20px]	lg:text-[20px]	xl:text-[20px]	2xl:text-[22px]	3xl:text-[23px]	4xl:text-[27px]	} 
+.fs-7	 { @apply xs:text-[19px]	sm:text-[19px]	md:text-[24px]	lg:text-[24px]	xl:text-[24px]	2xl:text-[26px]	3xl:text-[28px]	4xl:text-[33px]	} 
+.fs-6	 { @apply xs:text-[21px]	sm:text-[21px]	md:text-[29px]	lg:text-[29px]	xl:text-[29px]	2xl:text-[31px]	3xl:text-[33px]	4xl:text-[42px]	} 
+.fs-5	 { @apply xs:text-[23px]	sm:text-[23px]	md:text-[35px]	lg:text-[35px]	xl:text-[35px]	2xl:text-[37px]	3xl:text-[40px]	4xl:text-[52px]	} 
+.fs-4	 { @apply xs:text-[26px]	sm:text-[26px]	md:text-[42px]	lg:text-[42px]	xl:text-[42px]	2xl:text-[45px]	3xl:text-[48px]	4xl:text-[65px]	} 
+.fs-3	 { @apply xs:text-[30px]	sm:text-[30px]	md:text-[50px]	lg:text-[50px]	xl:text-[50px]	2xl:text-[54px]	3xl:text-[57px]	4xl:text-[81px]	} 
+.fs-2	 { @apply xs:text-[33px]	sm:text-[33px]	md:text-[60px]	lg:text-[60px]	xl:text-[60px]	2xl:text-[64px]	3xl:text-[69px]	4xl:text-[101px]	} 
+.fs-1	 { @apply xs:text-[38px]	sm:text-[38px]	md:text-[72px]	lg:text-[72px]	xl:text-[72px]	2xl:text-[77px]	3xl:text-[83px]	4xl:text-[127px]	} 
+
+/* config */
+/* scales:         [1.125, 1.125, 1.2, 1.2, 1.2, 1.2, 1.2, 1.25]*/
+/* start values:   [13, 13, 14, 14, 14, 15, 16, 17]*/
+/* count:          10*/

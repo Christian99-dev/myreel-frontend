@@ -1,0 +1,158 @@
+:root {
+	@media screen(4xl) {
+		--spacing-1:8px; 
+		--spacing-2:10px; 
+		--spacing-3:12px; 
+		--spacing-4:16px; 
+		--spacing-5:20px; 
+		--spacing-6:24px; 
+		--spacing-7:31px; 
+		--spacing-8:38px; 
+		--spacing-9:48px; 
+		--spacing-10:60px; 
+		--spacing-11:75px; 
+		--spacing-12:93px; 
+		--spacing-13:116px; 
+		--spacing-14:146px; 
+		--spacing-15:182px; 
+		--spacing-16:227px; 
+
+	}
+	@media screen(3xl) {
+		--spacing-1:8px; 
+		--spacing-2:10px; 
+		--spacing-3:12px; 
+		--spacing-4:14px; 
+		--spacing-5:17px; 
+		--spacing-6:20px; 
+		--spacing-7:24px; 
+		--spacing-8:29px; 
+		--spacing-9:34px; 
+		--spacing-10:41px; 
+		--spacing-11:50px; 
+		--spacing-12:59px; 
+		--spacing-13:71px; 
+		--spacing-14:86px; 
+		--spacing-15:103px; 
+		--spacing-16:123px; 
+
+	}
+	@media screen(2xl) {
+		--spacing-1:8px; 
+		--spacing-2:10px; 
+		--spacing-3:12px; 
+		--spacing-4:14px; 
+		--spacing-5:17px; 
+		--spacing-6:20px; 
+		--spacing-7:24px; 
+		--spacing-8:29px; 
+		--spacing-9:34px; 
+		--spacing-10:41px; 
+		--spacing-11:50px; 
+		--spacing-12:59px; 
+		--spacing-13:71px; 
+		--spacing-14:86px; 
+		--spacing-15:103px; 
+		--spacing-16:123px; 
+
+	}
+	@media screen(xl) {
+		--spacing-1:8px; 
+		--spacing-2:10px; 
+		--spacing-3:12px; 
+		--spacing-4:14px; 
+		--spacing-5:17px; 
+		--spacing-6:20px; 
+		--spacing-7:24px; 
+		--spacing-8:29px; 
+		--spacing-9:34px; 
+		--spacing-10:41px; 
+		--spacing-11:50px; 
+		--spacing-12:59px; 
+		--spacing-13:71px; 
+		--spacing-14:86px; 
+		--spacing-15:103px; 
+		--spacing-16:123px; 
+
+	}
+	@media screen(lg) {
+		--spacing-1:8px; 
+		--spacing-2:10px; 
+		--spacing-3:12px; 
+		--spacing-4:14px; 
+		--spacing-5:17px; 
+		--spacing-6:20px; 
+		--spacing-7:24px; 
+		--spacing-8:29px; 
+		--spacing-9:34px; 
+		--spacing-10:41px; 
+		--spacing-11:50px; 
+		--spacing-12:59px; 
+		--spacing-13:71px; 
+		--spacing-14:86px; 
+		--spacing-15:103px; 
+		--spacing-16:123px; 
+
+	}
+	@media screen(md) {
+		--spacing-1:8px; 
+		--spacing-2:10px; 
+		--spacing-3:12px; 
+		--spacing-4:14px; 
+		--spacing-5:17px; 
+		--spacing-6:20px; 
+		--spacing-7:24px; 
+		--spacing-8:29px; 
+		--spacing-9:34px; 
+		--spacing-10:41px; 
+		--spacing-11:50px; 
+		--spacing-12:59px; 
+		--spacing-13:71px; 
+		--spacing-14:86px; 
+		--spacing-15:103px; 
+		--spacing-16:123px; 
+
+	}
+	@media screen(sm) {
+		--spacing-1:8px; 
+		--spacing-2:9px; 
+		--spacing-3:10px; 
+		--spacing-4:11px; 
+		--spacing-5:13px; 
+		--spacing-6:14px; 
+		--spacing-7:16px; 
+		--spacing-8:18px; 
+		--spacing-9:21px; 
+		--spacing-10:23px; 
+		--spacing-11:26px; 
+		--spacing-12:29px; 
+		--spacing-13:33px; 
+		--spacing-14:37px; 
+		--spacing-15:42px; 
+		--spacing-16:47px; 
+
+	}
+	@media screen(xs) {
+		--spacing-1:6px; 
+		--spacing-2:7px; 
+		--spacing-3:8px; 
+		--spacing-4:9px; 
+		--spacing-5:10px; 
+		--spacing-6:11px; 
+		--spacing-7:12px; 
+		--spacing-8:14px; 
+		--spacing-9:15px; 
+		--spacing-10:17px; 
+		--spacing-11:19px; 
+		--spacing-12:22px; 
+		--spacing-13:25px; 
+		--spacing-14:28px; 
+		--spacing-15:31px; 
+		--spacing-16:35px; 
+
+	}
+}
+/* config */
+/* scales:         [1.125, 1.125, 1.2, 1.2, 1.2, 1.2, 1.2, 1.25]*/
+/* start values:   [6, 8, 8, 8, 8, 8, 8, 8]*/
+/* count:          16*/
