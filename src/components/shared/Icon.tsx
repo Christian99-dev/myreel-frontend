@@ -1,3 +1,4 @@
+// Icons
 import ArrowDown from "@/svg/arrow-down.svg";
 import Close from "@/svg/close.svg";
 import Eye from "@/svg/eye.svg";
@@ -11,7 +12,15 @@ import Upload from "@/svg/upload.svg";
 import Note from "@/svg/note.svg";
 import Pause from "@/svg/pause.svg";
 import Play from "@/svg/play.svg";
+
+// Theme parameters
 import { IconKey, FontSize, MainColor } from "@/types/theme";
+
+// Tailwind variables
+import tailwindConfig from "@/root/tailwind.config";
+
+// access themecolors typesafe
+const themeColors = tailwindConfig.theme?.colors as Record<MainColor, string> | undefined;
 
 const iconMap: Record<
   IconKey,
@@ -36,15 +45,26 @@ const Icon = ({
   name,
   size,
   color,
-  strokeWidth = 2,
+  strokeWidth = 35,
 }: {
   name: IconKey;
   size: FontSize;
   color: MainColor;
   strokeWidth?: number;
 }) => {
+  // get icon
   const SvgIcon = iconMap[name];
-  return <SvgIcon strokeWidth={strokeWidth} className={`fs-${size}`} stroke={"red"} />;
+
+  // Safely access the color from the Tailwind configuration
+  const strokeColor = themeColors && color in themeColors ? themeColors[color] : "black";
+
+  return (
+    <SvgIcon
+      stroke={strokeColor}
+      className={`fs-${size}`}
+      strokeWidth={strokeWidth}
+    />
+  );
 };
 
 export default Icon;

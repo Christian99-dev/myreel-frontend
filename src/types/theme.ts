@@ -21,10 +21,10 @@ export type FontSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
 // colors
 export type MainColor = 
-| "pink_very_light" 
-| "purple_light" 
+| "pink-very-light" 
+| "purple-light" 
 | "purple" 
-| "purple_dark" 
+| "purple-dark" 
 export type SlotColor = 1 | 2 | 3 | 4 | 5 | 6 | 7
 export type UserColor = 1 | 2 | 3 | 4 | 5 | 6
 

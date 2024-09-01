@@ -1,4 +1,2 @@
-<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M41 21C41 9.95833 32.0417 1 21 1C9.95833 1 1 9.95833 1 21C1 32.0417 9.95833 41 21 41C32.0417 41 41 32.0417 41 21Z" stroke="#E8D2FF" stroke-width="2" stroke-miterlimit="10"/>
-<path d="M16 14.3334V27.6667M26 14.3334V27.6667" stroke="#E8D2FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"/>
-</svg>
+<?xml version='1.0' encoding='utf-8'?>
+<svg class="ionicon" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="inherit" stroke-miterlimit="10" stroke-width="inherit" /><path fill="none" stroke="inherit" stroke-linecap="round" stroke-miterlimit="10" stroke-width="inherit" d="M208 192v128M304 192v128" /></svg>

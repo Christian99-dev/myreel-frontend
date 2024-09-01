@@ -3,16 +3,16 @@ import { FontSize, IconKey, MainColor } from "@/types/theme";
 
 const DebugIcons = () => {
   return (
-    <div className={`flex py-20 w-full overflow-y-auto`}>
-      {<TestSet strokeWidth={1} size={2} color="purple" />}
-      {<TestSet strokeWidth={2} size={2} color="purple_dark" />}
-      {/* {<TestSet strokeWidth={3} size={2} color="purple_light" />} */}
-      {/* {<TestSet strokeWidth={4} size={2} color="pink_very_light" />} */}
+    <div className={`flex py-20 w-full overflow-y-auto gap-10`}>
+      {<TestSet strokeWidth={10} size={1} color="purple-dark" />}
+      {<TestSet strokeWidth={20} size={2} color="purple" />}
+      {<TestSet size={3} color="purple-light" />}
+      {<TestSet strokeWidth={50} size={4} color="pink-very-light" />}
     </div>
   );
 };
 
-const TestSet = ({ strokeWidth, size, color }: { strokeWidth: number, size: FontSize; color: MainColor }) => {
+const TestSet = ({ strokeWidth = 35, size, color }: { strokeWidth?: number, size: FontSize; color: MainColor }) => {
   const iconKeys: IconKey[] = [
     "arrowDown",
     "close",
