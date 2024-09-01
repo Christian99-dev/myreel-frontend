@@ -9,8 +9,10 @@ import Rocket from "@/svg/rocket.svg";
 import Switch from "@/svg/switch.svg";
 import Thrash from "@/svg/thrash.svg";
 import Upload from "@/svg/upload.svg";
-
-export type IconKey = "arrowDown" | "close" | "eye" | "lockClosed" | "lockOpen" | "plus" | "rocket" | "switch" | "thrash" | "upload";
+import Note from "@/svg/note.svg";
+import Pause from "@/svg/pause.svg";
+import Play from "@/svg/play.svg";
+import { IconKey, FontSize, MainColor } from "@/types/theme";
 
 const iconMap: Record<
   IconKey,
@@ -26,19 +28,22 @@ const iconMap: Record<
   switch: Switch,
   thrash: Thrash,
   upload: Upload,
+  note: Note,
+  pause: Pause,
+  play: Play,
 };
 
 const Icon = ({
     name,
-    size = 7,
-    color = "pink_very_light",
+    size = 4,
+    color = "purple",
   }: {
     name: IconKey;
-    size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-    color?: "pink_very_light" | "purple_light" | "purple" | "purple_dark";
+    size?: FontSize;
+    color?: MainColor;
   }) => {
     const SvgIcon = iconMap[name];
-    return <SvgIcon strokeWidth={50} className={`fs-${size}`}  />;
+    return <SvgIcon strokeWidth={30} className={`fs-${size}`} />;
   };
 
 export default Icon
