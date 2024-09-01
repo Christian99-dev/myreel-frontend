@@ -22,6 +22,7 @@ import tailwindConfig from "@/root/tailwind.config";
 // access themecolors typesafe
 const themeColors = tailwindConfig.theme?.colors as Record<MainColor, string> | undefined;
 
+// all possible icons
 const iconMap: Record<
   IconKey,
   React.ComponentType<React.SVGProps<SVGSVGElement>>
@@ -41,7 +42,7 @@ const iconMap: Record<
   play: Play,
 };
 
-const Icon = ({
+export default function Icon ({
   name,
   size,
   color,
@@ -51,7 +52,7 @@ const Icon = ({
   size: FontSize;
   color: MainColor;
   strokeWidth?: number;
-}) => {
+}) {
   // get icon
   const SvgIcon = iconMap[name];
 
@@ -66,5 +67,3 @@ const Icon = ({
     />
   );
 };
-
-export default Icon;

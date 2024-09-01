@@ -1,7 +1,7 @@
 import Icon from "@/components/shared/Icon";
 import { FontSize, IconKey, MainColor } from "@/types/theme";
 
-const DebugIcons = () => {
+export default function DebugIcons () {
   return (
     <div className={`flex py-20 w-full overflow-y-auto gap-10`}>
       {<TestSet strokeWidth={10} size={1} color="purple-dark" />}
@@ -43,5 +43,3 @@ const TestSet = ({ strokeWidth = 35, size, color }: { strokeWidth?: number, size
     </div>
   );
 };
-
-export default DebugIcons;
