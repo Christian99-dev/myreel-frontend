@@ -1,4 +1,3 @@
-
 import ArrowDown from "@/svg/arrow-down.svg";
 import Close from "@/svg/close.svg";
 import Eye from "@/svg/eye.svg";
@@ -34,16 +33,18 @@ const iconMap: Record<
 };
 
 const Icon = ({
-    name,
-    size = 4,
-    color = "purple",
-  }: {
-    name: IconKey;
-    size?: FontSize;
-    color?: MainColor;
-  }) => {
-    const SvgIcon = iconMap[name];
-    return <SvgIcon strokeWidth={30} className={`fs-${size}`} />;
-  };
+  name,
+  size,
+  color,
+  strokeWidth = 2,
+}: {
+  name: IconKey;
+  size: FontSize;
+  color: MainColor;
+  strokeWidth?: number;
+}) => {
+  const SvgIcon = iconMap[name];
+  return <SvgIcon strokeWidth={strokeWidth} className={`fs-${size}`} stroke={"red"} />;
+};
 
-export default Icon
+export default Icon;
