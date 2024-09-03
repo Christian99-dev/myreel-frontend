@@ -14,6 +14,7 @@ export type IconKey =
   | "upload"
   | "note"
   | "pause"
+  | "search"
   | "play";
 
 // font

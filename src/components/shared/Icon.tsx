@@ -12,15 +12,10 @@ import Upload from "@/svg/upload.svg";
 import Note from "@/svg/note.svg";
 import Pause from "@/svg/pause.svg";
 import Play from "@/svg/play.svg";
+import Search from "@/svg/search.svg";
 
 // Theme parameters
 import { IconKey, FontSize, MainColor } from "@/types/theme";
-
-// Tailwind variables
-import tailwindConfig from "@/root/tailwind.config";
-
-// access themecolors typesafe
-const themeColors = tailwindConfig.theme?.colors as Record<MainColor, string> | undefined;
 
 // all possible icons
 const iconMap: Record<
@@ -40,30 +35,51 @@ const iconMap: Record<
   note: Note,
   pause: Pause,
   play: Play,
+  search: Search,
 };
 
-export default function Icon ({
+export default function Icon({
   name,
   size,
   color,
-  strokeWidth = 35,
+  strokeWidth = 60,
+  groupHover = false,
+  hover = false,
+  disabled = false
 }: {
   name: IconKey;
   size: FontSize;
   color: MainColor;
   strokeWidth?: number;
+  groupHover?: boolean;
+  hover?: boolean;
+  disabled?: boolean
 }) {
   // get icon
   const SvgIcon = iconMap[name];
 
-  // Safely access the color from the Tailwind configuration
-  const strokeColor = themeColors && color in themeColors ? themeColors[color] : "black";
+  // hover options
+  const hoverOption: Record<MainColor, MainColor> = {
+    "purple": "pink-very-light",
+    "pink-very-light": "purple",
+    "purple-dark": "purple-light",
+    "purple-light": "purple-dark",
+  };
 
   return (
     <SvgIcon
-      stroke={strokeColor}
-      className={`fs-${size}`}
+      className={`
+        transition-colors duration-200 ease-in-out 
+        fs-${size} 
+        stroke-${color} 
+        ${groupHover && !disabled ? `group-hover:stroke-${hoverOption[color]}` : ``}
+        ${hover && !disabled ? `hover:stroke-${hoverOption[color]}` : ``}
+
+
+        ${disabled ? `opacity-50` : `opacity-100`}
+        ${disabled ? `!cursor-not-allowed` : ``}
+      `}
       strokeWidth={strokeWidth}
     />
   );
-};
+}

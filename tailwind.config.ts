@@ -6,6 +6,13 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/svg/*.svg",
   ],
+  safelist: [
+
+    {
+      pattern: /(bg|text|stroke)-(pink-very-light|purple-light|purple|purple-dark)/,
+      variants: ['hover', 'group-hover'],
+    }
+  ],
   theme: {
     colors: {
       "pink-very-light": "#E8D2FF",
@@ -27,6 +34,9 @@ const config: Config = {
       "slot-theme-5": "#FFC44F",
       "slot-theme-6": "#F9F871",
       "slot-theme-7": "#00A78E",
+    },
+    borderRadius: {
+      "main" : "10px"
     },
     screens: {
       "4xl": { min: "1921px" },
