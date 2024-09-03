@@ -1,3 +1,4 @@
+"use client"
 import Icon from "@/components/shared/Icon";
 import { FontSize, IconKey, MainColor } from "@/types/theme";
 

@@ -16,6 +16,7 @@ import Search from "@/svg/search.svg";
 
 // Theme parameters
 import { IconKey, FontSize, MainColor } from "@/types/theme";
+import Link from "next/link";
 
 // all possible icons
 const iconMap: Record<
@@ -42,44 +43,65 @@ export default function Icon({
   name,
   size,
   color,
+  onClick,
+  href,
   strokeWidth = 60,
   groupHover = false,
-  hover = false,
-  disabled = false
+  disabled = false,
 }: {
   name: IconKey;
   size: FontSize;
   color: MainColor;
+  onClick?: () => any;
+  href?: string;
   strokeWidth?: number;
   groupHover?: boolean;
-  hover?: boolean;
-  disabled?: boolean
+  disabled?: boolean;
 }) {
   // get icon
   const SvgIcon = iconMap[name];
 
-  // hover options
-  const hoverOption: Record<MainColor, MainColor> = {
+  // hover color
+  const hoverColor = {
     "purple": "pink-very-light",
     "pink-very-light": "purple",
     "purple-dark": "purple-light",
     "purple-light": "purple-dark",
-  };
+  }[color];
 
-  return (
-    <SvgIcon
-      className={`
-        transition-colors duration-200 ease-in-out 
-        fs-${size} 
-        stroke-${color} 
-        ${groupHover && !disabled ? `group-hover:stroke-${hoverOption[color]}` : ``}
-        ${hover && !disabled ? `hover:stroke-${hoverOption[color]}` : ``}
+  // determine if hover and cursor effects should be applied
+  const applyHover = (onClick || href) && !disabled;
+  const cursorClass = applyHover ? "cursor-pointer" : "cursor-default";
 
+  const classNames = `
+    transition-colors duration-200 ease-in-out 
+    fs-${size} 
+    stroke-${color}
+    ${groupHover ? `group-hover:stroke-${hoverColor} group-hover:cursor-pointer` : ``}
+    ${applyHover ? `hover:stroke-${hoverColor}` : ``}
+    ${disabled ? `opacity-50 cursor-not-allowed` : `opacity-100`}
+    ${cursorClass}
+  `;
 
-        ${disabled ? `opacity-50` : `opacity-100`}
-        ${disabled ? `!cursor-not-allowed` : ``}
-      `}
-      strokeWidth={strokeWidth}
-    />
-  );
+  if (disabled) {
+    return <SvgIcon className={classNames} strokeWidth={strokeWidth} />;
+  }
+
+  if (href) {
+    return (
+      <Link href={href} className="inline-block">
+        <SvgIcon className={classNames} strokeWidth={strokeWidth} />
+      </Link>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <div className="inline-block" onClick={onClick}>
+        <SvgIcon className={classNames} strokeWidth={strokeWidth} />
+      </div>
+    );
+  }
+
+  return <SvgIcon className={classNames} strokeWidth={strokeWidth} />;
 }

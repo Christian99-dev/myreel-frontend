@@ -35,16 +35,10 @@ export default function DebugButton() {
           <Icon size={4} name="lockOpen" color="purple-dark" />
         </div>
         <div className="flex flex-col gap-5">
-          <Icon size={4} hover={true} name="close" color="pink-very-light" />
-          <Icon size={4} hover={true} name="eye" color="purple" />
-          <Icon size={4} hover={true} name="plus" color="purple-light" />
-          <Icon size={4} hover={true} name="lockOpen" color="purple-dark" />
-        </div>
-        <div className="flex flex-col gap-5">
-          <Icon disabled={true} size={4} hover={true} name="close" color="pink-very-light" />
-          <Icon disabled={true} size={4} hover={true} name="eye" color="purple" />
-          <Icon disabled={true} size={4} hover={true} name="plus" color="purple-light" />
-          <Icon disabled={true} size={4} hover={true} name="lockOpen" color="purple-dark" />
+          <Icon disabled={true} size={4} name="close" color="pink-very-light" />
+          <Icon disabled={true} size={4} name="eye" color="purple" />
+          <Icon disabled={true} size={4} name="plus" color="purple-light" />
+          <Icon disabled={true} size={4} name="lockOpen" color="purple-dark" />
         </div>
       </div>
 
@@ -65,10 +59,32 @@ export default function DebugButton() {
         </div>
       </div>
 
+      <div className="flex gap-5 justify-center">
+        <h1>Functionality</h1>
+        <div className="flex flex-col gap-5">  
+          <div className="flex gap-5">
+            <p>nothing</p>
+            <Icon size={4} name="close" color="purple" />
+            <Icon disabled={true} size={4} name="close" color="purple" />
+          </div>
+          <div className="flex gap-5">
+            <p>onclick und href</p>
+            <Icon size={4} onClick={() => console.log("Icon click!")} href="/" name="close" color="purple" />
+            <Icon disabled={true} size={4} onClick={() => console.log("Icon click!")} href="/" name="close" color="purple" />
+          </div>          
+          <div className="flex gap-5">
+            <p>onclick</p>
+            <Icon size={4} onClick={() => console.log("Icon click!")} name="close" color="purple" />
+            <Icon disabled={true} size={4} onClick={() => console.log("Icon click!")} name="close" color="purple" />
+          </div>          
+          <div className="flex gap-5">
+            <p>href</p>
+            <Icon size={4} href="/" name="close" color="purple" />
+            <Icon disabled={true} size={4} href="/" name="close" color="purple" />
+          </div>     
+        </div>
 
-
-
-
+      </div>
     </div>
   );
 }
