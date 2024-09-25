@@ -1,4 +1,5 @@
 // services/BaseService.ts
+import { SessionService } from "@/utils/session";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 // Base URL aus der .env Datei laden
@@ -54,8 +55,8 @@ export class BaseService {
   // Middleware, die den JWT und Admin-Token hinzufügt
   protected async addAuthorizationHeaders(config: AxiosRequestConfig) {
     config.headers = config.headers || {};
-    const jwt = localStorage.getItem("jwt");
-    const admintoken = localStorage.getItem("admintoken");
+    const jwt = SessionService.getItem("jwt");
+    const admintoken = SessionService.getItem("admintoken");
 
     if (jwt) {
       config.headers["Authorization"] = `Bearer ${jwt}`;
@@ -71,8 +72,8 @@ export class BaseService {
   // JWT speichern, falls im Response-Body vorhanden
   public saveJwtIfPresent(responseData: any) {
     if (responseData && responseData.jwt) {
-      localStorage.setItem("jwt", responseData.jwt);
-      console.log("JWT token saved to localStorage");
+      SessionService.setItem("jwt", responseData.jwt);
+      console.log("JWT token saved to SessionService");
     }
   }
 
