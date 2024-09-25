@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg width="383" height="348" viewBox="0.0 0.0 512.0 465.21148825065274" fill="none">
+<g filter="url(#filter0_d_511_2)">
+<path d="M162.3227,24.0627C162.3227,17.4179 167.7101,12.0313 174.354,12.0313H337.8639C344.5092,12.0313 349.8952,17.4179 349.8952,24.0627V343.0841C349.8952,349.7294 344.5092,355.1154 337.8639,355.1154H174.354C167.7101,355.1154 162.3227,349.7294 162.3227,343.0841V24.0627ZM374.6717,52.2613C374.6717,42.7961 385.0962,37.0377 393.1091,42.0768L491.8876,104.2016C495.3887,106.4038 497.5129,110.25 497.5129,114.3861V428.56C497.5129,438.0247 487.0885,443.7837 479.0769,438.7439L380.2984,376.6194C376.7972,374.4177 374.6717,370.5704 374.6717,366.4343V52.2613ZM119.1095,49.1814C127.1217,44.1423 137.5462,49.9007 137.5462,59.3659V373.5394C137.5462,377.6755 135.422,381.5215 131.9202,383.7233L33.1416,445.8491C25.1294,450.8875 14.705,445.1299 14.705,435.6639V121.4908C14.705,117.3545 16.8297,113.5084 20.3309,111.3063L119.1095,49.1814Z" stroke="inherit" stroke-width="inherit" shape-rendering="crispEdges" />
+</g>
+<defs>
+<filter id="filter0_d_511_2" x="1.2031331592689296" y="1.2031331592689296" width="509.81297127937336" height="462.6889190600522" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix" />
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+<feOffset dy="2" />
+<feGaussianBlur stdDeviation="4.55" />
+<feComposite in2="hardAlpha" operator="out" />
+<feColorMatrix type="matrix" values="0 0 0 0 0.911458 0 0 0 0 0.822917 0 0 0 0 1 0 0 0 1 0" />
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_511_2" />
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_511_2" result="shape" />
+</filter>
+</defs>
+</svg>

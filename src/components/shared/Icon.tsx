@@ -13,6 +13,7 @@ import Note from "@/svg/note.svg";
 import Pause from "@/svg/pause.svg";
 import Play from "@/svg/play.svg";
 import Search from "@/svg/search.svg";
+import BigHero from "@/svg/big_hero.svg";
 
 // Theme parameters
 import { IconKey, FontSize, MainColor } from "@/types/theme";
@@ -37,11 +38,13 @@ const iconMap: Record<
   pause: Pause,
   play: Play,
   search: Search,
+  bigHero: BigHero
 };
 
 export default function Icon({
   name,
-  size,
+  size = 5,
+  customSizeTailwindString,
   color,
   onClick,
   href,
@@ -50,7 +53,8 @@ export default function Icon({
   disabled = false,
 }: {
   name: IconKey;
-  size: FontSize;
+  size?: FontSize;
+  customSizeTailwindString?: string;
   color: MainColor;
   onClick?: () => any;
   href?: string;
@@ -73,9 +77,14 @@ export default function Icon({
   const applyHover = (onClick || href) && !disabled;
   const cursorClass = applyHover ? "cursor-pointer" : "cursor-default";
 
+  // use custom size if provided, otherwise use default size
+  const applySize = customSizeTailwindString
+    ? customSizeTailwindString
+    : `fs-${size}`;
+
   const classNames = `
     transition-colors duration-200 ease-in-out 
-    fs-${size} 
+    ${applySize} 
     stroke-${color}
     ${groupHover ? `group-hover:stroke-${hoverColor} group-hover:cursor-pointer` : ``}
     ${applyHover ? `hover:stroke-${hoverColor}` : ``}

@@ -41,6 +41,7 @@ const TestSet = ({ strokeWidth = 35, size, color }: { strokeWidth?: number, size
         );
       })}
       {testHorizontal && <div className={`fs-${size}`}>Hallo</div>}
+      <Icon strokeWidth={4} name="bigHero" customSizeTailwindString="text-[400px]" color="pink-very-light"/>
     </div>
   );
 };
