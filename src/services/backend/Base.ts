@@ -100,23 +100,41 @@ export class BaseService {
   }
 
   // HTTP-Methoden
-  protected post<T>(endpoint: string, data: any): ResponseHandler<T> {
-    return this.request<T>("post", endpoint, data);
+  protected post<T>(
+    endpoint: string,
+    data?: any,
+    customConfig?: AxiosRequestConfig
+  ): ResponseHandler<T> {
+    return this.request<T>("post", endpoint, data, customConfig);
   }
 
-  protected get<T>(endpoint: string): ResponseHandler<T> {
-    return this.request<T>("get", endpoint);
+  protected get<T>(
+    endpoint: string,
+    customConfig?: AxiosRequestConfig
+  ): ResponseHandler<T> {
+    return this.request<T>("get", endpoint, undefined, customConfig);
   }
 
-  protected put<T>(endpoint: string, data: any): ResponseHandler<T> {
-    return this.request<T>("put", endpoint, data);
+  protected put<T>(
+    endpoint: string,
+    data?: any,
+    customConfig?: AxiosRequestConfig
+  ): ResponseHandler<T> {
+    return this.request<T>("put", endpoint, data, customConfig);
   }
 
-  protected patch<T>(endpoint: string, data: any): ResponseHandler<T> {
-    return this.request<T>("patch", endpoint, data);
+  protected delete<T>(
+    endpoint: string,
+    customConfig?: AxiosRequestConfig
+  ): ResponseHandler<T> {
+    return this.request<T>("delete", endpoint, undefined, customConfig);
   }
 
-  protected delete<T>(endpoint: string): ResponseHandler<T> {
-    return this.request<T>("delete", endpoint);
+  protected patch<T>(
+    endpoint: string,
+    data?: any,
+    customConfig?: AxiosRequestConfig
+  ): ResponseHandler<T> {
+    return this.request<T>("patch", endpoint, data, customConfig);
   }
 }
