@@ -80,10 +80,11 @@ export class BaseService {
   protected request<T>(
     method: "get" | "post" | "put" | "patch" | "delete",
     endpoint: string,
-    data?: any
+    data?: any,
+    customConfig?: AxiosRequestConfig
   ): ResponseHandler<T> {
     const promiseFactory = async () => {
-      const config: AxiosRequestConfig = {};
+      const config: AxiosRequestConfig = customConfig || {};
       await this.addAuthorizationHeaders(config);
 
       return axios({
