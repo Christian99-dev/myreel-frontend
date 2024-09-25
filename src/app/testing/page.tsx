@@ -8,6 +8,7 @@ import DebugFileServices from "@/components/debug/DebugFileService";
 import DebugUserServices from "@/components/debug/DebugUserService";
 import DebugEditServices from "@/components/debug/DebugEditService";
 import DebugSlotServices from "@/components/debug/DebugSlotService";
+import DebugWebSocketServices from "@/components/debug/DebugWebSocket";
 import { SessionService } from "@/utils/session";
 
 export default function Testing() {
@@ -33,6 +34,8 @@ export default function Testing() {
       {true && <DebugEditServices />}
       <div className="h-20 w-20"></div>
       {true && <DebugSlotServices />}
+      <div className="h-20 w-20"></div>
+      {true && <DebugWebSocketServices />}
     </div>
   );
 }
