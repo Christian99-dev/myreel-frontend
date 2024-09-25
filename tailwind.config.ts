@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/svg/*.svg",
   ],
@@ -37,6 +37,9 @@ const config: Config = {
     },
     borderRadius: {
       "main" : "10px"
+    },
+    boxShadow: {
+      'main': '0px 0px 6px 1px rgba(166, 136, 250, 0.7)',
     },
     screens: {
       "4xl": { min: "1921px" },
