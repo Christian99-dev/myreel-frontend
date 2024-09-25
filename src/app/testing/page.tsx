@@ -2,6 +2,7 @@ import DebugIcons from "@/components/debug/DebugIcon";
 import DebugButton from "@/components/debug/DebugButton";
 import DebugInput from "@/components/debug/DebugInput";
 import DebugSongServices from "@/components/debug/DebugSongServices";
+import DebugGroupServices from "@/components/debug/DebugGroupServices";
 
 export default function Testing() {
     return (
@@ -9,7 +10,8 @@ export default function Testing() {
         {false && <DebugInput />}
         {false && <DebugButton />}
         {false && <DebugIcons />}
-        {true && <DebugSongServices />}
+        {false && <DebugSongServices />}
+        {true && <DebugGroupServices />}
       </div>
     );
   }
