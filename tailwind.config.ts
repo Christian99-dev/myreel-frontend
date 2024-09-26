@@ -22,7 +22,7 @@ const config: Config = {
       "purple-very-dark": "#20033D",
 
       "user-theme-1": "#2D8FF9",
-      "user-theme-2": "#A688FA",
+      "user-theme-2": "#7d55ed",
       "user-theme-3": "#FC7FDC",
       "user-theme-4": "#FF86AE",
       "user-theme-5": "#FFA581",

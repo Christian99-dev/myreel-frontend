@@ -17,7 +17,7 @@ const UserTag = ({ name, id }: { name: string; id: number }) => {
 
   return (
     <div
-      className={`flex font-semibold items-center justify-center rounded-[999px] ${colorClass} size-[--spacing-7]`}
+      className={`flex font-semibold items-center justify-center rounded-[999px] ${colorClass} size-[--spacing-7] text-[#fff]`}
     >
       {initial}
     </div>
