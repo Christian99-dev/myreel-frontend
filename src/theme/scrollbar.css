@@ -1,0 +1,28 @@
+/* Globale CSS-Datei (z.B. globals.css) */
+
+/* iOS-ähnliche Scrollbar für Webkit-basierte Browser (Chrome, Safari, Edge) */
+.ios-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Breite der vertikalen Scrollbar */
+  height: 8px; /* Höhe der horizontalen Scrollbar */
+}
+
+.ios-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Hintergrund der Scrollbar-Spur */
+  border-radius: 4px; /* Abgerundete Ecken der Spur */
+  padding: 2px; /* Padding innerhalb der Spur */
+}
+
+.ios-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Unsichtbarer Thumb */
+  border-radius: 4px; /* Abgerundete Ecken des Thumbs */
+}
+
+.ios-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(232, 210, 255, 0.1); /* Minimal sichtbar beim Hover mit 'pink-very-light' Farbe */
+}
+
+/* Scrollbar für Firefox */
+.ios-scrollbar {
+  scrollbar-width: thin; /* "auto", "thin" oder "none" */
+  scrollbar-color: rgba(232, 210, 255, 0.5) transparent;
+}
