@@ -2,7 +2,7 @@
 
 import Button from "@/components/shared/Button";
 import Icon from "@/components/shared/Icon";
-import FindGroupModal from "@/components/modals/FindGroup";
+import FindGroupModal from "@/components/home/FindGroupModal";
 import { useState } from "react";
 
 export default function Hero() {
