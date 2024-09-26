@@ -9,6 +9,7 @@ import DebugUserServices from "@/components/debug/DebugUserService";
 import DebugEditServices from "@/components/debug/DebugEditService";
 import DebugSlotServices from "@/components/debug/DebugSlotService";
 import DebugWebSocketServices from "@/components/debug/DebugWebSocket";
+import DebugModal from "@/components/debug/DebugModal";
 import { SessionService } from "@/utils/session";
 
 export default function Testing() {
@@ -19,23 +20,26 @@ export default function Testing() {
 
   return (
     <div className="w-screen my-20">
+      {true && <DebugModal />}
       {false && <DebugInput />}
-      {false && <DebugButton />}
-      {false && <DebugIcons />}
+      {true && <DebugButton />}
+      {true && <DebugIcons />}
 
-      {true && <DebugSongServices />}
+      {false && <DebugSongServices />}
       <div className="h-20 w-20"></div>
-      {true && <DebugGroupServices />}
+      {false && <DebugGroupServices />}
       <div className="h-20 w-20"></div>
-      {true && <DebugFileServices />}
+      {false && <DebugFileServices />}
       <div className="h-20 w-20"></div>
-      {true && <DebugUserServices />}
+      {false && <DebugUserServices />}
       <div className="h-20 w-20"></div>
-      {true && <DebugEditServices />}
+      {false && <DebugEditServices />}
       <div className="h-20 w-20"></div>
-      {true && <DebugSlotServices />}
+      {false && <DebugSlotServices />}
       <div className="h-20 w-20"></div>
-      {true && <DebugWebSocketServices />}
+      {false && <DebugWebSocketServices />}
+      
+    
     </div>
   );
 }
