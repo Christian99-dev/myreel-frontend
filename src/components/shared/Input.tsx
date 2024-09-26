@@ -43,6 +43,7 @@ export default function Input({
             rounded-main 
             fs-9 
             font-medium 
+            mt-[--spacing-1]
             py-[--spacing-2] 
             px-[--spacing-8] 
             placeholder-pink-very-light

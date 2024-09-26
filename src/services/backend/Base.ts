@@ -24,7 +24,7 @@ export class ResponseHandler<T> {
           
           // statuscode
           let statuscode = 0
-          if(error["response"]["status"])
+          if(error["response"] && error["response"]["status"])
             statuscode = error["response"]["status"]
 
           this.errorCallback(error, statuscode);

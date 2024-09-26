@@ -28,7 +28,7 @@ export default function PanelLayout({
 
         {/** Main Content */}
         <div className="flex-1 bg-purple-dark relative">
-          <div className="absolute top-0 left-0 right-0 bottom-0 p-[--spacing-7] overflow-y-auto ios-scrollbar">
+          <div className="absolute top-0 left-0 right-0 bottom-0 px-[--spacing-10] py-[--spacing-10] overflow-y-auto ios-scrollbar">
             {children[1]}
           </div>
         </div>

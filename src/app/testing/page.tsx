@@ -20,25 +20,25 @@ export default function Testing() {
   // );
 
   return (
-    <div className="w-screen my-20">
+    <div className="w-screen my-20 ">
       {false && <DebugModal />}
       {false && <DebugInput />}
       {false && <DebugButton />}
       {false && <DebugIcons />}
 
-      {false && <DebugSongServices />}
+      {true && <DebugSongServices />}
       <div className="h-20 w-20"></div>
-      {false && <DebugGroupServices />}
+      {true && <DebugGroupServices />}
       <div className="h-20 w-20"></div>
-      {false && <DebugFileServices />}
+      {true && <DebugFileServices />}
       <div className="h-20 w-20"></div>
-      {false && <DebugUserServices />}
+      {true && <DebugUserServices />}
       <div className="h-20 w-20"></div>
-      {false && <DebugEditServices />}
+      {true && <DebugEditServices />}
       <div className="h-20 w-20"></div>
-      {false && <DebugSlotServices />}
+      {true && <DebugSlotServices />}
       <div className="h-20 w-20"></div>
-      {false && <DebugWebSocketServices />}
+      {true && <DebugWebSocketServices />}
 
 
       {true && <DebugComponentSetOne />}

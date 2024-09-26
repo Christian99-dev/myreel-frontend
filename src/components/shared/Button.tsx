@@ -83,6 +83,7 @@ export default function Button({
     gap-[--spacing-2]  
     font-medium
     transition-colors duration-200 ease-in-out
+    h-min
 
     ${padding}
     ${opacity}
