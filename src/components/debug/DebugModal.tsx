@@ -25,7 +25,7 @@ const TestModal = ({
   const modalRef = useRef<ModalHandle>(null);
 
   return (
-    <Modal ref={modalRef} open={open} onClose={onClose}>
+    <Modal title="Login" ref={modalRef} open={open} onClose={onClose}>
       <Slide>
         <Input
           placeholder="was ght"

@@ -1,15 +1,26 @@
+"use client";
+
 import Button from "@/components/shared/Button";
 import Icon from "@/components/shared/Icon";
+import FindGroupModal from "@/components/modals/FindGroup";
+import { useState } from "react";
 
 export default function Hero() {
+  const [openFindGroupModal, setOpenFindGroupModal] = useState(false);
+
   return (
     <header className="min-h-screen flex flex-col">
+      <FindGroupModal
+        open={openFindGroupModal}
+        onClose={() => setOpenFindGroupModal(false)}
+      />
+
       {/** Header */}
       <nav className="flex justify-between items-center py-[--spacing-6] px-[--border]">
         <p className="fs-6 text-pink-very-light font-medium">YourReel</p>
         <div className="flex gap-[--spacing-5]">
           <Button iconName="plus" theme="dark" text="Gruppe Erstellen" />
-          <Button iconName="search" text="Gruppe Finden" />
+          <Button onClick={() => setOpenFindGroupModal(true)} iconName="search" text="Gruppe Finden" />
         </div>
       </nav>
 

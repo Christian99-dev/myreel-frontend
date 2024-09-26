@@ -19,8 +19,9 @@ const Modal = forwardRef<
     open: boolean;
     onClose: () => void;
     children: ReactNode[] | ReactNode;
+    title: string;
   }
->(function Modal({ open, onClose, children }, ref) {
+>(function Modal({ open, onClose, children, title }, ref) {
   // Stelle sicher, dass children ein Array ist
   const slides = React.Children.toArray(children);
 
@@ -53,8 +54,7 @@ const Modal = forwardRef<
   return (
     open && (
       <div
-        className="fixed inset-0 bg-purple-dark bg-opacity-20 flex justify-center items-center z-30"
-        onClick={onClose}
+        className="fixed inset-0 bg-purple-very-dark bg-opacity-75 flex justify-center items-center z-30"
       >
         <div
           className="relative bg-purple-dark p-5 rounded-main shadow-main border-purple-light border-2 z-40"
@@ -63,9 +63,9 @@ const Modal = forwardRef<
           {/* Header des Modals */}
           <div className="flex justify-between items-center pb-4">
             <div className="flex-1"></div>
-            <div className="flex-1">
+            <div className="w-[80%]">
               <p className="fs-8 font-medium text-pink-very-light text-center">
-                Login
+                {title}
               </p>
             </div>
             <div className="flex-1 flex justify-end">
@@ -96,7 +96,7 @@ export const Slide = ({
 }) => {
   return (
     <motion.div
-      className={`min-w-[500px] flex text-center justify-center items-center flex-col ${className}`}
+      className={`min-w-[500px] flex justify-center items-center flex-col ${className} gap-[--spacing-3]`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
