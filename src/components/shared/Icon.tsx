@@ -43,12 +43,12 @@ const iconMap: Record<
 
 export default function Icon({
   name,
-  size = 5,
+  size = 7,
   customSizeTailwindString,
   color,
   onClick,
   href,
-  strokeWidth = 60,
+  strokeWidth = 40,
   groupHover = false,
   disabled = false,
 }: {
@@ -68,7 +68,7 @@ export default function Icon({
   // hover color
   const hoverColor = {
     "purple": "pink-very-light",
-    "pink-very-light": "purple",
+    "pink-very-light": "purple-light",
     "purple-dark": "purple-light",
     "purple-light": "purple-dark",
   }[color];
