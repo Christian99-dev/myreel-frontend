@@ -1,5 +1,7 @@
 "use client";
 
+import InviteFriendModal from "@/components/group/InviteFriendsModal";
+import Button from "@/components/shared/Button";
 import PanelLayout from "@/components/shared/PanelLayout";
 import { GroupService } from "@/services/backend/GroupService";
 import { GetResponse } from "@/types/GroupService";
@@ -12,9 +14,9 @@ export default function Page() {
   const router = useRouter();
 
   const groupService = new GroupService();
+  const [inviteFriendsModal, setInviteFriedsModal] = useState(false);
 
   useEffect(() => {
-
     if (!group_id_param) {
       // Falls group_id_param nicht vorhanden ist, leite zur Startseite weiter
       router.push("/");
@@ -24,16 +26,16 @@ export default function Page() {
     groupService
       .getGroup(group_id_param)
       .onError((_, statuscode) => {
-        console.log("error")
+        console.log("error");
         switch (statuscode) {
           case 404: {
             alert("Group not found");
-            router.push("/")
+            router.push("/");
             break;
           }
           case 403: {
             alert("Unauthorized");
-            router.push("/")
+            router.push("/");
             break;
           }
           default: {
@@ -48,9 +50,31 @@ export default function Page() {
   }, []);
 
   return (
-    <PanelLayout title={group ? group.group_name : "Loading ... "}>
-      <>test</>
-      <></>
-    </PanelLayout>
+    <>
+      {group && (
+        <InviteFriendModal
+          open={inviteFriendsModal}
+          onClose={() => setInviteFriedsModal(false)}
+          groupName={group.group_name}
+          groupid={group.group_id}
+        />
+      )}
+      <PanelLayout title={group ? group.group_name : "Loading ... "}>
+        <></>
+        <>
+          {group && (
+            <div className="flex justify-end">
+              <Button
+                text="Freunde Einladen"
+                iconName="rocket"
+                onClick={() => {
+                  setInviteFriedsModal(true);
+                }}
+              />
+            </div>
+          )}
+        </>
+      </PanelLayout>
+    </>
   );
 }
