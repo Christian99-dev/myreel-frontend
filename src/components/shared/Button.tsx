@@ -76,7 +76,7 @@ export default function Button({
 
   const classNames = `
     ${disabled ? `` : `group`}
-    self-start
+    w-max
     rounded-main 
     flex
     fs-9 
