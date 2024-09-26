@@ -20,10 +20,10 @@ export default function Testing() {
 
   return (
     <div className="w-screen my-20">
-      {true && <DebugModal />}
-      {false && <DebugInput />}
-      {true && <DebugButton />}
-      {true && <DebugIcons />}
+      {false && <DebugModal />}
+      {true && <DebugInput />}
+      {false && <DebugButton />}
+      {false && <DebugIcons />}
 
       {false && <DebugSongServices />}
       <div className="h-20 w-20"></div>

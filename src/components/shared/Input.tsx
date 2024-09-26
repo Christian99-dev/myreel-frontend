@@ -16,8 +16,7 @@ export default function Input({
   return (
     <div className="w-full">
       <label
-        className={`
-            bg-white 
+        className={` 
             fs-9 
             font-normal 
             text-pink-very-light 
@@ -25,7 +24,7 @@ export default function Input({
             duration-200
             
             peer
-            ${isFilled ? "text-purple" : ""}
+            ${isFilled ? "text-purple-light" : ""}
         `}
       >
         {label}
@@ -34,6 +33,9 @@ export default function Input({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        style={{
+          background: "transparent" // )=
+        }}
         className={`
             w-full 
             border-2 
@@ -43,18 +45,18 @@ export default function Input({
             font-medium 
             py-[--spacing-2] 
             px-[--spacing-8] 
-            placeholder-purple 
+            placeholder-pink-very-light
             placeholder:font-normal
             focus:outline-none
-            placeholder-opacity-50 
+            placeholder-opacity-80
             transition-colors 
             duration-200
-            peer-focus:text-purple
+            peer-focus:text-purple-light
             focus:border-purple
             focus:border-opacity-50
 
-            text-purple
-            ${isFilled ? "border-purple" : ""}
+            text-purple-light
+            ${isFilled ? "border-purple-light" : ""}
             ${isFilled ? "!border-opacity-100" : ""}
         `}
       />

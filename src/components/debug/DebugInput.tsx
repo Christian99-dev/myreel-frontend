@@ -8,7 +8,7 @@ export default function DebugInput() {
   const [inputTwo, setInputTwo] = useState("");
   const [inputThree, setInputThree] = useState("test");
   return (
-    <div className="w-1/4 m-auto flex flex-col gap-10">
+    <div className="w-1/2 m-auto flex flex-col gap-10 bg-purple-dark p-10">
       <Input
         label="Name"
         placeholder="Dein name"
