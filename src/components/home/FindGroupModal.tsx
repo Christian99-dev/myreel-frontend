@@ -44,6 +44,7 @@ export default function FindGroupModal({
           value={groupId}
         />
         <Button
+          iconName="search"
           disabled={isLoading}
           text="Gruppe Suchen"
           onClick={() => {

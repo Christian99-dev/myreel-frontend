@@ -12,8 +12,8 @@ export default function PanelLayout({ children }: { children: ReactNode[] }) {
 
       <div className="bg-purple-very-dark flex flex-1">
         {/** Side Bar */}
-        <div className="border-r border-r-purple-light w-[15%] p-[--spacing-7] relative ios-scrollbar">
-          <div className="absolute top-0 left-0 right-0 bottom-0 p-[--spacing-7] overflow-y-auto">
+        <div className="border-r border-r-purple-light w-[15%] p-[--spacing-7] relative">
+          <div className="absolute top-0 left-0 right-0 bottom-0 p-[--spacing-7] overflow-y-auto ios-scrollbar">
             {children[1]}
           </div>
         </div>

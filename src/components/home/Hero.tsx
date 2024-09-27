@@ -46,14 +46,15 @@ export default function Hero() {
 
           {/** Buttons*/}
           <div className="flex gap-[--spacing-5]">
-            <Button iconName="plus" theme="dark" text="Gruppe Erstellen" />
-            <Button iconName="search" text="Gruppe Finden" />
+            <Button onClick={() => setOpenCreateGroupModal(true)} iconName="plus" theme="dark" text="Gruppe Erstellen" />
+            <Button onClick={() => setOpenFindGroupModal(true)} iconName="search" text="Gruppe Finden" />
           </div>
         </div>
 
         {/** Icon */}
         <div className="w-min">
           <Icon
+          floating
             strokeWidth={4}
             name="bigHero"
             customSizeTailwindString="text-[350px]"

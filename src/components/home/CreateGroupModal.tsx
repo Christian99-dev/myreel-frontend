@@ -53,7 +53,8 @@ export default function CreateGroupModal({
 
         <Button
           disabled={isLoading}
-          text="Gruppe Suchen"
+          iconName="plus"
+          text="Gruppe Erstellen"
           onClick={() => {
             setIsLoading(true);
             groupService

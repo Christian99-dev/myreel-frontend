@@ -18,9 +18,9 @@ export default function Work() {
   );
 }
 
-function Box({offset, src}: {offset: number, src: string}) {
+function Box({offset, src, className}: {offset: number, src: string, className?:string}) {
   return (
-    <div className="relative w-full h-full">
+    <div className={`${className} animate-float relative w-full h-full`}>
       <div className={`border-purple-light border-2 rounded-main shadow-main absolute right-0 left-0 h-full`} style={{top: offset}}>
       <img
           src={src}
