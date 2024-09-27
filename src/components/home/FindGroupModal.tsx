@@ -24,6 +24,8 @@ export default function FindGroupModal({
   const [pin, setPin] = useState("");
   const [isLoading, setIsLoading] = useState(false)
 
+  const goToGroupIfLoggedIn = () => groupService.getGroup(groupId).onSuccess((res) => router.push("/" + res.group_id))
+
   const clear = () => {
     setGroupName("");
     setGroupId("");
@@ -63,6 +65,10 @@ export default function FindGroupModal({
                 }
               })
               .onSuccess((res) => {
+                // Direkt weiterleiten
+                goToGroupIfLoggedIn()
+
+                // Oder login
                 setIsLoading(false);
                 setGroupName(res.name);
                 modalRef.current?.slideTo(1);
