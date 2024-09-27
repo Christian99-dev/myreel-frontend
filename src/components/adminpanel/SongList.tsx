@@ -10,7 +10,7 @@ export default function SongList({
   buttonName,
 }: {
   songs: Song[];
-  onButtonClick: (song_id: number) => void;
+  onButtonClick: (song: Song) => void;
   buttonIcon: IconKey;
   buttonName: string;
 }) {
@@ -20,18 +20,22 @@ export default function SongList({
     setCurrentlyPlaying((prev) => (prev === song_id ? null : song_id));
   };
 
-  return songs.map(({ name, author, cover_src, song_id, audio_src }) => (
-    <SongComponent
-      key={song_id}
-      audio_src={audio_src}
-      name={name}
-      author={author}
-      img={cover_src}
-      isPlaying={currentlyPlaying === song_id} // check if the song is currently playing
-      onPlayPause={() => handlePlayPause(song_id)} // handle play/pause click
-      buttonIcon={buttonIcon}
-      buttonName={buttonName}
-      buttonOnClick={() => onButtonClick(song_id)}
-    />
-  ));
+  return songs.map((song) => {
+    const { name, author, cover_src, song_id, audio_src } = song;
+
+    return (
+      <SongComponent
+        key={song_id}
+        audio_src={audio_src}
+        name={name}
+        author={author}
+        img={cover_src}
+        isPlaying={currentlyPlaying === song_id} // check if the song is currently playing
+        onPlayPause={() => handlePlayPause(song_id)} // handle play/pause click
+        buttonIcon={buttonIcon}
+        buttonName={buttonName}
+        buttonOnClick={() => onButtonClick(song)}
+      />
+    );
+  });
 }

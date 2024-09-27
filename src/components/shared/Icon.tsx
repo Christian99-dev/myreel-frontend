@@ -19,6 +19,19 @@ import BigHero from "@/svg/big_hero.svg";
 import { IconKey, FontSize, MainColor } from "@/types/theme";
 import Link from "next/link";
 
+interface IconProps {
+  name: IconKey;
+  size?: FontSize;
+  customSizeTailwindString?: string;
+  color: MainColor;
+  onClick?: () => any;
+  href?: string;
+  strokeWidth?: number;
+  groupHover?: boolean;
+  disabled?: boolean;
+  floating?: boolean; // Neues Prop hinzugefügt
+}
+
 // all possible icons
 const iconMap: Record<
   IconKey,
@@ -51,17 +64,8 @@ export default function Icon({
   strokeWidth = 40,
   groupHover = false,
   disabled = false,
-}: {
-  name: IconKey;
-  size?: FontSize;
-  customSizeTailwindString?: string;
-  color: MainColor;
-  onClick?: () => any;
-  href?: string;
-  strokeWidth?: number;
-  groupHover?: boolean;
-  disabled?: boolean;
-}) {
+  floating = false,
+}: IconProps) {
   // get icon
   const SvgIcon = iconMap[name];
 
@@ -90,6 +94,7 @@ export default function Icon({
     ${applyHover ? `hover:stroke-${hoverColor}` : ``}
     ${disabled ? `opacity-50 cursor-not-allowed` : `opacity-100`}
     ${cursorClass}
+    ${floating ? "float" : ""} // Floating-Klasse hinzufügen
   `;
 
   if (disabled) {

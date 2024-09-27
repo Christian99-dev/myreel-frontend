@@ -44,9 +44,9 @@ export default function Page() {
               buttonIcon="thrash"
               buttonName="Löschen"
               songs={songs}
-              onButtonClick={(song_id) => {
+              onButtonClick={(song) => {
                 songService
-                  .deleteSong(song_id)
+                  .deleteSong(song.song_id)
                   .onSuccess(() => {
                     updateSongs();
                   })

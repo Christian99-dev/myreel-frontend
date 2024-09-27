@@ -1,6 +1,7 @@
 "use client";
 
 import InviteFriendModal from "@/components/group/InviteFriendsModal";
+import CreateEditModal from "@/components/group/CreateEditModal";
 import Button from "@/components/shared/Button";
 import Icon from "@/components/shared/Icon";
 import PanelButton from "@/components/shared/PanelButton";
@@ -28,6 +29,7 @@ export default function Page() {
   // State
   const [activeEditId, setActiveEditId] = useState<number | null>();
   const [inviteFriendsModal, setInviteFriedsModal] = useState(false);
+  const [createEditModal, setCreateEditModal] = useState(false);
 
   // Responses
   const [groupRes, setGroupRes] = useState<GetResponse | null>(null);
@@ -77,6 +79,7 @@ export default function Page() {
           }
           default: {
             alert(statuscode);
+            router.push("/");
             break;
           }
         }
@@ -131,6 +134,13 @@ export default function Page() {
         groupid={groupRes.group_id}
       />
 
+      <CreateEditModal
+        open={createEditModal}
+        onClose={() => setCreateEditModal(false)}
+        groupid={groupRes.group_id}
+        setActiveEditId={setActiveEditId}
+      />
+
       <PanelLayout>
         <>
           {/** Header */}
@@ -172,7 +182,7 @@ export default function Page() {
             <PanelButton
               alt="create"
               text="Edit Erstellen"
-              onClick={() => {}}
+              onClick={() => setCreateEditModal(true)}
               user={{ id: me.id, name: me.name }}
             />
           </div>

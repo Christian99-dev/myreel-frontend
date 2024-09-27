@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import Modal, { ModalHandle, Slide } from "@/components/shared/Modal";
 import Input from "@/components/shared/Input";
 import Button from "../shared/Button";
@@ -6,23 +6,26 @@ import { UserService } from "@/services/backend/UserService";
 import SongList from "../adminpanel/SongList";
 import { Song } from "@/types/SongService";
 import { SongService } from "@/services/backend/SongService";
+import { EditService } from "@/services/backend/EditService";
+import Icon from "../shared/Icon";
 
 export default function CreateEditModal({
   open,
   onClose,
-  userid,
+  groupid,
+  setActiveEditId,
 }: {
   open: boolean;
   onClose: () => void;
-  userid: number;
+  groupid: string;
+  setActiveEditId: Dispatch<SetStateAction<number | null | undefined>>;
 }) {
   const songService = new SongService();
-  const [isLoading, setIsLoading] = useState(false);
+  const [editName, setEditName] = useState("");
   const [songs, setSongs] = useState<Song[] | null>(null);
-  const userService = new UserService();
+  const editService = new EditService();
   const modalRef = useRef<ModalHandle>(null);
-  const [email, setEmail] = useState("");
-  const [selectedSong, setSelectedSong] = useState<Song| null>(null)
+  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -38,21 +41,100 @@ export default function CreateEditModal({
   }, [open]);
 
   return (
-    <Modal
-      title="Freunde Einladen"
-      ref={modalRef}
-      open={open}
-      onClose={onClose}
-    >
+    <Modal title="Edit Erstellen" ref={modalRef} open={open} onClose={onClose}>
       <Slide>
         <p>Wähle einen song aus</p>
         {songs ? (
           <div className="flex flex-col max-h-[300px] overflow-auto w-full gap-[--spacing-2] ios-scrollbar">
-            <SongList buttonName="Auswählen" buttonIcon="rocket" songs={songs} onButtonClick={(song_id) => {}} />
+            <SongList
+              buttonName="Auswählen"
+              buttonIcon="rocket"
+              songs={songs}
+              onButtonClick={(song) => {
+                setSelectedSong(song);
+                modalRef.current?.slideTo(1);
+              }}
+            />
           </div>
         ) : (
           <div>Loading ...</div>
         )}
+      </Slide>
+      <Slide>
+        <Input
+          value={editName}
+          label="Editname"
+          placeholder="Hier Editname eingeben"
+          onChange={(e) => setEditName(e.target.value)}
+        />
+        <Button text="Weiter" onClick={() => modalRef.current?.slideTo(2)} />
+      </Slide>
+
+      <Slide>
+        {selectedSong && (
+          <>
+            <p className="text-center">
+              Möchtest du{" "}
+              <span className="fs-9 font-bold text-purple-light">
+                {selectedSong.name}
+              </span>{" "}
+              von{" "}
+              <span className="fs-9 font-medium text-pink-very-light">
+                {selectedSong.author}
+              </span>{" "}
+              <br /> für dein neues Edit{" "}
+              <span className="fs-9 font-medium text-pink-very-light">
+                {editName}
+              </span>{" "}
+              nehmen ?
+            </p>
+            <div className="flex gap-[--spacing-3]">
+              <Button
+                text="Auswählen"
+                iconName="rocket"
+                onClick={() => {
+                  modalRef.current?.slideTo(3);
+                  editService
+                    .createEdit({
+                      song_id: selectedSong.song_id,
+                      groupid: groupid,
+                      edit_name: editName,
+                    })
+                    .onError((_, statuscode) => {
+                      alert(statuscode);
+                    })
+                    .onSuccess(({ edit_id }) => {
+                      modalRef.current?.slideTo(0);
+                      setActiveEditId(edit_id);
+                      setEditName("")
+                      onClose();
+                    });
+                }}
+              />
+              <Button
+                text="Abbrechen"
+                theme="dark"
+                iconName="close"
+                onClick={() => {
+                  setSelectedSong(null);
+                  modalRef.current?.slideTo(0);
+                  onClose();
+                }}
+              />
+            </div>
+          </>
+        )}
+      </Slide>
+
+      <Slide className="text-center">
+        <h1>Bitte warten</h1>
+        <Icon
+          floating={true}
+          name="bigHero"
+          color="purple-light"
+          size={1}
+          strokeWidth={4}
+        />
       </Slide>
     </Modal>
   );
