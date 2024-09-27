@@ -41,6 +41,7 @@ export default function Page() {
   // Page behaviour
   const pageIsLoading = !groupRes || !me || !membersRes || !editsRes;
   const noEditSelected = !activeEditId;
+  const noEditsInGroup =  !editsRes || editsRes.edits.length == 0
 
   const updateMembers = () => {
     groupService
@@ -52,7 +53,19 @@ export default function Page() {
   const updateEdits = () => {
     groupService
       .getGroupEdits(group_id_param)
-      .onError(() => alert("Etwas ist schiefgelaufen"))
+      .onError((_,statuscode) => {
+        switch(statuscode) {
+          case 404: {
+            setEditsRes({edits: []})
+            break;
+          }
+
+          default: {
+            alert("Etwas ist schiefgelaufen!")
+          }
+
+        }
+      })
       .onSuccess((res) => setEditsRes(res));
   };
 
@@ -104,14 +117,15 @@ export default function Page() {
       .onError((_) => alert("WebSocket-Fehler"));
 
     // Selecting Edit
-    setActiveEditId(editsRes.edits[0].edit_id);
+    if(!noEditsInGroup)
+      setActiveEditId(editsRes.edits[0].edit_id);
 
     return () => {
       ws.close();
     };
   }, [pageIsLoading]);
 
-  if (pageIsLoading || noEditSelected)
+  if (pageIsLoading)
     return (
       <div className="w-screen h-screen bg-purple-dark flex items-center justify-center flex-col">
         <h1 className="fs-7 font-normal text-pink-very-light">
@@ -202,7 +216,7 @@ const EditList = ({
 }: {
   edits: EditPreview[];
   onChange: (edit_id: number) => void;
-  active: number;
+  active?: number| null;
 }) => {
   return edits.map(({ name, edit_id, created_by, isLive }) => {
     return (
