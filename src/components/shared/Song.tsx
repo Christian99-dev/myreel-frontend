@@ -83,7 +83,7 @@ const Cover = ({ img, isPlaying }: { img: string; isPlaying: boolean }) => {
           ${isPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
         `}
       >
-        <Icon name={isPlaying ? "pause" : "play"} color="pink-very-light" />
+        <Icon name={isPlaying ? "pause" : "play"} color="pink-very-light" onlyCursor={true} />
       </div>
       {/* Bild */}
       <img src={img} className={`${base} object-cover z-[10]`} alt={`${name} Cover`} />

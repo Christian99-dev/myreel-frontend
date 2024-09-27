@@ -19,19 +19,6 @@ import BigHero from "@/svg/big_hero.svg";
 import { IconKey, FontSize, MainColor } from "@/types/theme";
 import Link from "next/link";
 
-interface IconProps {
-  name: IconKey;
-  size?: FontSize;
-  customSizeTailwindString?: string;
-  color: MainColor;
-  onClick?: () => any;
-  href?: string;
-  strokeWidth?: number;
-  groupHover?: boolean;
-  disabled?: boolean;
-  floating?: boolean; // Neues Prop hinzugefügt
-}
-
 // all possible icons
 const iconMap: Record<
   IconKey,
@@ -51,7 +38,7 @@ const iconMap: Record<
   pause: Pause,
   play: Play,
   search: Search,
-  bigHero: BigHero
+  bigHero: BigHero,
 };
 
 export default function Icon({
@@ -65,13 +52,26 @@ export default function Icon({
   groupHover = false,
   disabled = false,
   floating = false,
-}: IconProps) {
+  onlyCursor = false,
+}: {
+  name: IconKey;
+  size?: FontSize;
+  customSizeTailwindString?: string;
+  color: MainColor;
+  onClick?: () => any;
+  href?: string;
+  strokeWidth?: number;
+  groupHover?: boolean;
+  disabled?: boolean;
+  floating?: boolean;
+  onlyCursor?: boolean;
+}) {
   // get icon
   const SvgIcon = iconMap[name];
 
   // hover color
   const hoverColor = {
-    "purple": "pink-very-light",
+    purple: "pink-very-light",
     "pink-very-light": "purple-light",
     "purple-dark": "purple-light",
     "purple-light": "purple-dark",
@@ -90,11 +90,16 @@ export default function Icon({
     transition-colors duration-200 ease-in-out 
     ${applySize} 
     stroke-${color}
-    ${groupHover ? `group-hover:stroke-${hoverColor} group-hover:cursor-pointer` : ``}
+    ${
+      groupHover
+        ? `group-hover:stroke-${hoverColor} group-hover:cursor-pointer`
+        : ``
+    }
     ${applyHover ? `hover:stroke-${hoverColor}` : ``}
     ${disabled ? `opacity-50 cursor-not-allowed` : `opacity-100`}
     ${cursorClass}
     ${floating ? "animate-float" : ""}
+    ${onlyCursor ? "cursor-pointer" : ""}
   `;
 
   if (disabled) {
