@@ -29,7 +29,9 @@ export default function Page() {
   return (
     <PanelLayout>
       <>
-        <h1 className="fs-9 text-pink-very-light text-center font-bold ">Admin Panel</h1>
+        <h1 className="fs-9 text-pink-very-light text-center font-bold ">
+          Admin Panel
+        </h1>
       </>
       <>
         <PanelButton text="Songs" active />
@@ -38,7 +40,19 @@ export default function Page() {
       <>
         <div className="flex flex-col gap-[--spacing-5]">
           {songs ? (
-            <SongList songs={songs} onSuccessfullDelete={() => updateSongs()} />
+            <SongList
+              songs={songs}
+              onButtonClick={(song_id) => {
+                songService
+                  .deleteSong(song_id)
+                  .onSuccess(() => {
+                    updateSongs();
+                  })
+                  .onError((_, statuscode) => {
+                    alert(statuscode);
+                  });
+              }}
+            />
           ) : (
             "Loading..."
           )}

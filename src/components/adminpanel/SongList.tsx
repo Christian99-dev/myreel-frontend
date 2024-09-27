@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { SongService } from "@/services/backend/SongService";
 import { Song } from "@/types/SongService";
 import SongComponent from "@/components/shared/Song";
 
-export default function SongList({ songs, onSuccessfullDelete }: { songs: Song[], onSuccessfullDelete: () => void }) {
+export default function SongList({ songs, onButtonClick }: { songs: Song[], onButtonClick: (song_id: number) => void }) {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
-  const songService = new SongService();
 
   const handlePlayPause = (song_id: number) => {
     setCurrentlyPlaying(prev => (prev === song_id ? null : song_id));
@@ -22,16 +20,7 @@ export default function SongList({ songs, onSuccessfullDelete }: { songs: Song[]
       onPlayPause={() => handlePlayPause(song_id)} // handle play/pause click
       buttonIcon="close"
       buttonName="Delete"
-      buttonOnClick={() => {
-        songService
-          .deleteSong(song_id)
-          .onSuccess(() => {
-            onSuccessfullDelete();
-          })
-          .onError((_, statuscode) => {
-            alert(statuscode);
-          });
-      }}
+      buttonOnClick={() => onButtonClick(song_id)}
     />
   ));
 }
