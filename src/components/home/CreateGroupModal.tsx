@@ -2,7 +2,6 @@ import Modal, { ModalHandle, Slide } from "../shared/Modal";
 import Button from "@/components/shared/Button";
 import Input from "@/components/shared/Input";
 import { GroupService } from "@/services/backend/GroupService";
-import { UserService } from "@/services/backend/UserService";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
