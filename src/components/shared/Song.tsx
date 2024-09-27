@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { IconKey } from "@/types/theme";
 import Button from "@/components/shared/Button";
 import Icon from "./Icon";
@@ -10,7 +10,9 @@ export default function Song({
   buttonName,
   buttonIcon,
   buttonOnClick,
-  audio_src
+  audio_src,
+  isPlaying,
+  onPlayPause
 }: {
   name: string;
   author: string;
@@ -19,25 +21,33 @@ export default function Song({
   buttonIcon: IconKey;
   buttonOnClick: () => void;
   audio_src: string;
+  isPlaying: boolean;
+  onPlayPause: () => void; // Function to toggle play/pause state
 }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Loading state for delete button
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handlePlayPause = () => {
+  // Handle audio play/pause based on external isPlaying prop
+  useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.pause();
-      } else {
         audioRef.current.play();
+      } else {
+        audioRef.current.pause();
       }
-      setIsPlaying(!isPlaying);
     }
+  }, [isPlaying]);
+
+  const handleDeleteClick = () => {
+    setIsLoading(true); // Set loading state to true
+    buttonOnClick();
+    setTimeout(() => setIsLoading(false), 2000); // Simulate loading complete after 2 seconds, remove this when you have real API response
   };
 
   return (
     <div
       className="flex w-full justify-between items-center border-purple-light rounded-main p-[--spacing-5] border-[1px] bg-purple-very-dark hover:cursor-pointer group"
-      onClick={handlePlayPause} // Click to play or pause the song
+      onClick={onPlayPause} // Play/pause handled by parent
     >
       <Cover img={img} isPlaying={isPlaying} />
       <div className="text-left flex-1 pl-[--spacing-4]">
@@ -52,7 +62,8 @@ export default function Song({
         <Button
           text={buttonName}
           iconName={buttonIcon}
-          onClick={buttonOnClick}
+          onClick={handleDeleteClick}
+          disabled={isLoading} // Disable button when loading
         />
       </div>
 

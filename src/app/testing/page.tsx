@@ -14,10 +14,10 @@ import DebugModal from "@/components/debug/DebugModal";
 import { SessionService } from "@/utils/session";
 
 export default function Testing() {
-  // SessionService.setItem(
-  //   "admintoken",
-  //   "270d159e9a8324553e131bd49910402f41250450b8d0fa93acaa9deb2896df1c"
-  // );
+  SessionService.setItem(
+    "admintoken",
+    "270d159e9a8324553e131bd49910402f41250450b8d0fa93acaa9deb2896df1c"
+  );
 
   return (
     <div className="w-screen my-20 ">
