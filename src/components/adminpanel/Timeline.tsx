@@ -105,14 +105,9 @@ const Timeline: React.FC<TimelineProps> = ({
     e: React.MouseEvent<HTMLDivElement>
   ) => {
     e.preventDefault();
-    const confirmDelete = window.confirm(
-      "Möchtest du diesen Schnittpunkt löschen?"
+    setBreakpoints((prevBreakpoints) =>
+      prevBreakpoints.filter((_, i) => i !== index)
     );
-    if (confirmDelete) {
-      setBreakpoints((prevBreakpoints) =>
-        prevBreakpoints.filter((_, i) => i !== index)
-      );
-    }
   };
 
   const colors = [
