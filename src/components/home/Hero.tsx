@@ -3,10 +3,12 @@
 import Button from "@/components/shared/Button";
 import Icon from "@/components/shared/Icon";
 import FindGroupModal from "@/components/home/FindGroupModal";
+import CreateGroupModal from "@/components/home/CreateGroupModal";
 import { useState } from "react";
 
 export default function Hero() {
   const [openFindGroupModal, setOpenFindGroupModal] = useState(false);
+  const [openCreateGroupModal, setOpenCreateGroupModal] = useState(false);
 
   return (
     <header className="min-h-screen flex flex-col">
@@ -15,11 +17,16 @@ export default function Hero() {
         onClose={() => setOpenFindGroupModal(false)}
       />
 
+      <CreateGroupModal
+        open={openCreateGroupModal}
+        onClose={() => setOpenCreateGroupModal(false)}
+      />
+
       {/** Header */}
       <nav className="flex justify-between items-center py-[--spacing-6] px-[--border]">
         <p className="fs-6 text-pink-very-light font-medium">YourReel</p>
         <div className="flex gap-[--spacing-5]">
-          <Button iconName="plus" theme="dark" text="Gruppe Erstellen" />
+          <Button onClick={() => setOpenCreateGroupModal(true)} iconName="plus" theme="dark" text="Gruppe Erstellen" />
           <Button onClick={() => setOpenFindGroupModal(true)} iconName="search" text="Gruppe Finden" />
         </div>
       </nav>

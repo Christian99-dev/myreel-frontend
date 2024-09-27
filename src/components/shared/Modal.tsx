@@ -96,7 +96,7 @@ export const Slide = ({
 }) => {
   return (
     <motion.div
-      className={`min-w-[500px] flex justify-center items-center flex-col ${className} gap-[--spacing-3]`}
+      className={`min-w-[500px] flex justify-center items-center flex-col ${className} gap-[--spacing-7]`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
