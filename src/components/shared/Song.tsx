@@ -24,7 +24,6 @@ export default function Song({
   isPlaying: boolean;
   onPlayPause: () => void; // Function to toggle play/pause state
 }) {
-  const [isLoading, setIsLoading] = useState(false); // Loading state for delete button
   const audioRef = useRef<HTMLAudioElement>(null);
 
   // Handle audio play/pause based on external isPlaying prop
@@ -37,12 +36,6 @@ export default function Song({
       }
     }
   }, [isPlaying]);
-
-  const handleDeleteClick = () => {
-    setIsLoading(true); // Set loading state to true
-    buttonOnClick();
-    setTimeout(() => setIsLoading(false), 2000); // Simulate loading complete after 2 seconds, remove this when you have real API response
-  };
 
   return (
     <div
@@ -62,8 +55,7 @@ export default function Song({
         <Button
           text={buttonName}
           iconName={buttonIcon}
-          onClick={handleDeleteClick}
-          disabled={isLoading} // Disable button when loading
+          onClick={buttonOnClick}
         />
       </div>
 
