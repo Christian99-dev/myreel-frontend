@@ -15,7 +15,7 @@ export default function InviteFriendModal({
   groupid: string;
   groupName: string;
 }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const userService = new UserService();
   const modalRef = useRef<ModalHandle>(null);
   const [email, setEmail] = useState("");
@@ -28,9 +28,8 @@ export default function InviteFriendModal({
       onClose={onClose}
     >
       <Slide>
-        <p className="fs-10 text-purple-very-light text-center">
-          Lade jetzt deine freunde in die Gruppe <br /> {groupName} <br /> ein
-          und erstellt Edits gemeinsam !
+        <p className="fs-10 text-pink-very-light text-center">
+          Lade jetzt deine freunde in die <span className="font-bold text-purple-light">{groupName}</span> ein <br />
         </p>
         <Input
           label="E-mail"
