@@ -22,6 +22,7 @@ export default function AcceptInviteModal({
   inviteid: string;
   token: string;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const userService = new UserService();
   const modalRef = useRef<ModalHandle>(null);
   const router = useRouter();
@@ -31,7 +32,9 @@ export default function AcceptInviteModal({
     <Modal title="Einladung" ref={modalRef} open={open} onClose={onClose}>
       <Slide>
         <p className="fs-10 text-purple-very-light text-center">
-          Einlung <span className="font-bold text-purple-light"> {groupName} </span> Beizutreten
+          Einlung{" "}
+          <span className="font-bold text-purple-light"> {groupName} </span>{" "}
+          Beizutreten
         </p>
         <Input
           label="Username"
@@ -40,9 +43,11 @@ export default function AcceptInviteModal({
           onChange={(e) => setUserName(e.target.value)}
         />
         <Button
+          disabled={isLoading}
           iconName="rocket"
           text="Beitreten"
           onClick={() => {
+            setIsLoading(true);
             userService
               .acceptInvite({
                 groupid: groupid,
@@ -50,8 +55,18 @@ export default function AcceptInviteModal({
                 token: token,
                 name: userName,
               })
-              .onError(() => {
-                alert("Etwas ist schiefgelaufen");
+              .onError((_, statuscode) => {
+                switch(statuscode) {
+                  case 404: {
+                    alert("Einladung abgelaufen");
+                    break;
+                  }
+                  default: {
+                    alert("Etwas ist schiefgelaufen")
+                    break;
+                  }
+                }
+                setIsLoading(false);
               })
               .onSuccess((res) => {
                 router.push("/" + groupid);

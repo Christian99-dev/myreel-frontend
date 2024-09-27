@@ -15,6 +15,7 @@ export default function InviteFriendModal({
   groupid: string;
   groupName: string;
 }) {
+  const [isLoading, setIsLoading] = useState(false)
   const userService = new UserService();
   const modalRef = useRef<ModalHandle>(null);
   const [email, setEmail] = useState("");
@@ -38,18 +39,20 @@ export default function InviteFriendModal({
           value={email}
         />
         <Button
+          disabled={isLoading}
           iconName="rocket"
           text="Einladen"
           onClick={() => {
+            setIsLoading(true);
             userService
               .invite({ email: email, groupid: groupid })
               .onError(() => {
                 alert("Etwas ist schiefgelaufen");
-                setEmail("");
-                onClose();
+                setIsLoading(false);
               })
               .onSuccess((res) => {
                 alert("Dankeschön! Email wurde versendet!");
+                setIsLoading(false);
                 setEmail("");
                 onClose();
               });
