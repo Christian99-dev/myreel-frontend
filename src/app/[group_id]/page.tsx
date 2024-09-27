@@ -169,6 +169,12 @@ export default function Page() {
               edits={editsRes.edits}
               onChange={(edit_id) => setActiveEditId(edit_id)}
             />
+            <PanelButton
+              alt="create"
+              text="Edit Erstellen"
+              onClick={() => {}}
+              user={{ id: me.id, name: me.name }}
+            />
           </div>
         </>
         <></>
@@ -186,16 +192,17 @@ const EditList = ({
   onChange: (edit_id: number) => void;
   active: number;
 }) => {
-  return edits.map(({ name, edit_id, created_by }) => {
+  return edits.map(({ name, edit_id, created_by, isLive }) => {
     return (
       <PanelButton
+        greenBorder={true}
         key={edit_id}
         text={name}
         active={active == edit_id}
         onClick={() => onChange(edit_id)}
         user={{
           id: created_by.user_id,
-          name: created_by.name
+          name: created_by.name,
         }}
       />
     );
