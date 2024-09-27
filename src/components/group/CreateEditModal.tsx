@@ -108,6 +108,7 @@ export default function CreateEditModal({
                     })
                     .onError((_, statuscode) => {
                       alert(statuscode);
+                      onClose()
                     })
                     .onSuccess(({ edit_id }) => {
                       setEditId(edit_id);
