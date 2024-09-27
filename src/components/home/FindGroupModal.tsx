@@ -22,6 +22,7 @@ export default function FindGroupModal({
   const [groupName, setGroupName] = useState("");
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   const clear = () => {
     setGroupName("");
@@ -41,11 +42,14 @@ export default function FindGroupModal({
           value={groupId}
         />
         <Button
+          disabled={isLoading}
           text="Gruppe Suchen"
           onClick={() => {
+            setIsLoading(true)
             groupService
               .getGroupName(groupId)
               .onError((_, statuscode) => {
+                setIsLoading(false);
                 clear();
                 switch (statuscode) {
                   case 404: {
@@ -59,6 +63,7 @@ export default function FindGroupModal({
                 }
               })
               .onSuccess((res) => {
+                setIsLoading(false);
                 setGroupName(res.name);
                 modalRef.current?.slideTo(1);
               });
@@ -76,11 +81,14 @@ export default function FindGroupModal({
           value={email}
         />
         <Button
+          disabled={isLoading}
           text="PIN anfordern"
           onClick={() => {
+            setIsLoading(true)
             userService
               .loginRequest({ email: email, groupid: groupId })
               .onError((_, statuscode) => {
+                setIsLoading(false);
                 switch (statuscode) {
                   case 404: {
                     alert("Email nicht gefunden!");
@@ -93,6 +101,7 @@ export default function FindGroupModal({
                 }
               })
               .onSuccess((res) => {
+                setIsLoading(false);
                 modalRef.current?.slideTo(2);
               });
           }}
@@ -109,11 +118,14 @@ export default function FindGroupModal({
           value={pin}
         />
         <Button
+          disabled={isLoading}
           text="Login"
           onClick={() => {
+            setIsLoading(true)
             userService
               .login({ email: email, groupid: groupId, pin: pin})
               .onError((_, statuscode) => {
+                setIsLoading(false);
                 switch (statuscode) {
                   case 400: {
                     alert("Ungültiger pin");
