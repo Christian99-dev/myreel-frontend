@@ -14,12 +14,12 @@ export default function CreateEditModal({
   open,
   onClose,
   groupid,
-  setActiveEditId,
+  setSelectedEditId,
 }: {
   open: boolean;
   onClose: () => void;
   groupid: string;
-  setActiveEditId: Dispatch<SetStateAction<number | null | undefined>>;
+  setSelectedEditId: Dispatch<SetStateAction<number | null | undefined>>;
 }) {
   const songService = new SongService();
   const [editName, setEditName] = useState("");
@@ -110,7 +110,7 @@ export default function CreateEditModal({
                     })
                     .onSuccess(({ edit_id }) => {
                       modalRef.current?.slideTo(0);
-                      setActiveEditId(edit_id);
+                      setSelectedEditId(edit_id);
                       setEditName("");
                       onClose();
                     });

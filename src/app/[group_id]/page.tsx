@@ -10,17 +10,17 @@ import UserTags from "@/components/shared/UserTags";
 import { GroupService } from "@/services/backend/GroupService";
 import { WebSocketService } from "@/services/backend/WebSocketService";
 import {
-  Edit as EditPreview,
   GetEditsResponse,
   GetMembersResponse,
   GetResponse,
   User,
 } from "@/types/GroupService";
 
-import { Edit } from "@/types/EditService";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import LoadingText from "@/components/shared/LoadingText";
+import EditList from "@/components/group/EditList";
+import EditEditor from "@/components/group/EditEditor";
 
 export default function Page() {
   const { group_id: group_id_param } = useParams<{ group_id: string }>();
@@ -28,7 +28,9 @@ export default function Page() {
   const router = useRouter();
 
   // State
-  const [activeEditId, setActiveEditId] = useState<number | null>();
+  const [selectedEditId, setSelectedEditId] = useState<number | null>();
+
+  // Modal
   const [inviteFriendsModal, setInviteFriedsModal] = useState(false);
   const [createEditModal, setCreateEditModal] = useState(false);
 
@@ -40,8 +42,9 @@ export default function Page() {
 
   // Page behaviour
   const pageIsLoading = !groupRes || !me || !membersRes || !editsRes;
-  const noEditSelected = !activeEditId;
-  const noEditsInGroup =  !editsRes || editsRes.edits.length == 0
+  const noEditSelected = !selectedEditId;
+  const noEditsInGroup = editsRes?.edits.length == 0;
+  const EditsThereButNoEditSelected = !noEditsInGroup && noEditSelected;
 
   const updateMembers = () => {
     groupService
@@ -53,17 +56,16 @@ export default function Page() {
   const updateEdits = () => {
     groupService
       .getGroupEdits(group_id_param)
-      .onError((_,statuscode) => {
-        switch(statuscode) {
+      .onError((_, statuscode) => {
+        switch (statuscode) {
           case 404: {
-            setEditsRes({edits: []})
+            setEditsRes({ edits: [] });
             break;
           }
 
           default: {
-            alert("Etwas ist schiefgelaufen!")
+            alert("Etwas ist schiefgelaufen!");
           }
-
         }
       })
       .onSuccess((res) => setEditsRes(res));
@@ -106,7 +108,7 @@ export default function Page() {
       });
   }, []);
 
-  // onFirstSuccessfull Render
+  // Websocket
   useEffect(() => {
     if (pageIsLoading) return;
 
@@ -115,10 +117,6 @@ export default function Page() {
       .onUserChange(() => updateMembers())
       .onEditChange(() => updateEdits())
       .onError((_) => alert("WebSocket-Fehler"));
-
-    // Selecting Edit
-    if(!noEditsInGroup)
-      setActiveEditId(editsRes.edits[0].edit_id);
 
     return () => {
       ws.close();
@@ -129,7 +127,7 @@ export default function Page() {
     return (
       <div className="w-screen h-screen bg-purple-dark flex items-center justify-center flex-col">
         <h1 className="fs-7 font-normal text-pink-very-light">
-          <LoadingText text="Trette Gruppe bei"/>
+          <LoadingText text="Trette Gruppe bei" />
         </h1>
         <Icon
           floating={true}
@@ -154,7 +152,7 @@ export default function Page() {
         open={createEditModal}
         onClose={() => setCreateEditModal(false)}
         groupid={groupRes.group_id}
-        setActiveEditId={setActiveEditId}
+        setSelectedEditId={setSelectedEditId}
       />
 
       <PanelLayout>
@@ -191,9 +189,9 @@ export default function Page() {
         <>
           <div className="flex flex-col gap-[--spacing-1]">
             <EditList
-              active={activeEditId}
+              active={selectedEditId}
               edits={editsRes.edits}
-              onChange={(edit_id) => setActiveEditId(edit_id)}
+              onChange={(edit_id) => setSelectedEditId(edit_id)}
             />
             <PanelButton
               alt="create"
@@ -203,34 +201,37 @@ export default function Page() {
             />
           </div>
         </>
-        <></>
+        <>
+          {noEditsInGroup && <NoEditsInGroupBanner />}
+          {EditsThereButNoEditSelected && <EditsThereButNoEditSelectedBanner/>}
+          {selectedEditId && <EditEditor selectedEditId={selectedEditId} />}
+        </>
       </PanelLayout>
     </>
   );
 }
 
-const EditList = ({
-  edits,
-  onChange,
-  active,
-}: {
-  edits: EditPreview[];
-  onChange: (edit_id: number) => void;
-  active?: number| null;
-}) => {
-  return edits.map(({ name, edit_id, created_by, isLive }) => {
-    return (
-      <PanelButton
-        greenBorder={isLive}
-        key={edit_id}
-        text={name}
-        active={active == edit_id}
-        onClick={() => onChange(edit_id)}
-        user={{
-          id: created_by.user_id,
-          name: created_by.name,
-        }}
-      />
-    );
-  });
+const EditsThereButNoEditSelectedBanner = () => {
+  return (
+    <div className="w-full h-full flex flex-col text-center">
+      <h2 className="font-medium fs-7 text-purple-light opacity-50 mb-[--spacing-10]">
+        Wähle ein Edit aus
+      </h2>
+    </div>
+  );
+};
+
+const NoEditsInGroupBanner = () => {
+  return (
+    <div className="w-full h-full flex flex-col text-center">
+      <h2 className="font-medium fs-7 text-purple-light opacity-50 mb-[--spacing-10]">
+        Ziemlich leer hier
+      </h2>
+      <h2 className="font-medium fs-9 text-purple-light px-[25%]">
+        Klicken auf den Button{" "}
+        <span className="font-bold text-pink-very-light">“Edit Erstellen”</span>{" "}
+        Links in der Leiste, und suche dir eine Song aus der dir gefällt
+      </h2>
+    </div>
+  );
 };
