@@ -15,6 +15,7 @@ export default function AddSong({onSuccessfullAdd} : {onSuccessfullAdd: () => vo
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [buttonIsLoading, setButtonIsLoading] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null); // Mutable Ref
 
@@ -106,6 +107,8 @@ export default function AddSong({onSuccessfullAdd} : {onSuccessfullAdd: () => vo
       return;
     }
 
+    setButtonIsLoading(true)
+
     songServices.createSong({
       song_file: songFile,
       cover_file: coverFile,
@@ -114,10 +117,12 @@ export default function AddSong({onSuccessfullAdd} : {onSuccessfullAdd: () => vo
       breakpoints: breakpoints
     }).onError((_, statuscode) => {
       alert(statuscode)
+      setButtonIsLoading(false)
     }).onSuccess(() => {
       alert(name + " erfolgreich hochgeladen!")
       clearAll()
       onSuccessfullAdd()
+      setButtonIsLoading(false)
     })
   };
 
@@ -194,6 +199,7 @@ export default function AddSong({onSuccessfullAdd} : {onSuccessfullAdd: () => vo
           theme="dark"
           text="Song Hochladen"
           iconName="bigHero"
+          disabled={buttonIsLoading}
         />
 
         <Button
