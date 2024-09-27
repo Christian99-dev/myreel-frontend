@@ -195,7 +195,7 @@ const EditList = ({
   return edits.map(({ name, edit_id, created_by, isLive }) => {
     return (
       <PanelButton
-        greenBorder={true}
+        greenBorder={isLive}
         key={edit_id}
         text={name}
         active={active == edit_id}
