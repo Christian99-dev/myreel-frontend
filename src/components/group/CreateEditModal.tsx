@@ -23,6 +23,7 @@ export default function CreateEditModal({
 }) {
   const songService = new SongService();
   const [editName, setEditName] = useState("");
+  const [editId, setEditId] = useState<number | null>();
   const [songs, setSongs] = useState<Song[] | null>(null);
   const editService = new EditService();
   const modalRef = useRef<ModalHandle>(null);
@@ -95,7 +96,7 @@ export default function CreateEditModal({
             </p>
             <div className="flex gap-[--spacing-3]">
               <Button
-                text="Auswählen"
+                text="Erstellen"
                 iconName="rocket"
                 onClick={() => {
                   modalRef.current?.slideTo(3);
@@ -109,10 +110,8 @@ export default function CreateEditModal({
                       alert(statuscode);
                     })
                     .onSuccess(({ edit_id }) => {
-                      modalRef.current?.slideTo(0);
-                      setSelectedEditId(edit_id);
-                      setEditName("");
-                      onClose();
+                      setEditId(edit_id);
+                      modalRef.current?.slideTo(4);
                     });
                 }}
               />
@@ -123,6 +122,7 @@ export default function CreateEditModal({
                 onClick={() => {
                   setSelectedSong(null);
                   modalRef.current?.slideTo(0);
+                  setEditName("");
                   onClose();
                 }}
               />
@@ -142,6 +142,15 @@ export default function CreateEditModal({
           size={1}
           strokeWidth={4}
         />
+      </Slide>
+
+      <Slide className="text-center">
+        <Button text="Neues Edit bearbeiten" onClick={() => {
+            setSelectedEditId(editId)
+            modalRef.current?.slideTo(0);
+            setEditName("");
+            onClose();
+        }}/>
       </Slide>
     </Modal>
   );

@@ -17,35 +17,42 @@ import {
 } from "@/types/GroupService";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoadingText from "@/components/shared/LoadingText";
 import EditList from "@/components/group/EditList";
 import EditEditor from "@/components/group/EditEditor";
+import { EditService } from "@/services/backend/EditService";
+import { GetEditResponse } from "@/types/EditService";
 
 export default function Page() {
   const { group_id: group_id_param } = useParams<{ group_id: string }>();
   const groupService = new GroupService();
+  const editService = new EditService();
   const router = useRouter();
 
   // State
   const [selectedEditId, setSelectedEditId] = useState<number | null>();
-
+  
   // Modal
   const [inviteFriendsModal, setInviteFriedsModal] = useState(false);
   const [createEditModal, setCreateEditModal] = useState(false);
-
+  
   // Responses
   const [groupRes, setGroupRes] = useState<GetResponse | null>(null);
   const [me, setMe] = useState<User | null>(null);
   const [membersRes, setMembersRes] = useState<GetMembersResponse | null>(null);
   const [editsRes, setEditsRes] = useState<GetEditsResponse | null>(null);
-
+  const [editRes, setEditRes] = useState<GetEditResponse | null>();
+  
   // Page behaviour
   const pageIsLoading = !groupRes || !me || !membersRes || !editsRes;
   const noEditSelected = !selectedEditId;
   const noEditsInGroup = editsRes?.edits.length == 0;
   const EditsThereButNoEditSelected = !noEditsInGroup && noEditSelected;
 
+  // Workaround, selectedID ist im callback undefined zu dem zeitpunkt der initialisierung
+  const selectedEditIdRef = useRef<number | null | undefined>(null);
+  
   const updateMembers = () => {
     groupService
       .getGroupMembers(group_id_param)
@@ -71,6 +78,18 @@ export default function Page() {
       .onSuccess((res) => setEditsRes(res));
   };
 
+  const updateEdit = () => {
+    if (!selectedEditIdRef.current) return;
+    editService
+      .getEditDetails(selectedEditIdRef.current)
+      .onError(() => {
+        alert("Etwas ist schief gelaufen");
+      })
+      .onSuccess((editRes) => {
+        setEditRes(editRes);
+      });
+  };
+
   // onStart
   useEffect(() => {
     if (!group_id_param) {
@@ -81,7 +100,6 @@ export default function Page() {
     groupService
       .getGroup(group_id_param)
       .onError((_, statuscode) => {
-        console.log("error");
         switch (statuscode) {
           case 404: {
             alert("Group not found");
@@ -114,14 +132,28 @@ export default function Page() {
 
     // Websocket connect
     const ws = new WebSocketService(groupRes.group_id)
-      .onUserChange(() => updateMembers())
-      .onEditChange(() => updateEdits())
+      .onUserChange(() => {
+        updateMembers()
+      })
+      .onEditChange(() => {
+        updateEdits();
+        updateEdit();
+      })
+      .onOccupiedSlotChange(() => {
+        updateEdit();
+      })
       .onError((_) => alert("WebSocket-Fehler"));
 
     return () => {
       ws.close();
     };
   }, [pageIsLoading]);
+
+  // onChangeSelectedEdit
+  useEffect(() => {
+    selectedEditIdRef.current = selectedEditId; // Ref dem state spiegeln
+    updateEdit();
+  }, [selectedEditId]);
 
   if (pageIsLoading)
     return (
@@ -203,8 +235,8 @@ export default function Page() {
         </>
         <>
           {noEditsInGroup && <NoEditsInGroupBanner />}
-          {EditsThereButNoEditSelected && <EditsThereButNoEditSelectedBanner/>}
-          {selectedEditId && <EditEditor selectedEditId={selectedEditId} />}
+          {EditsThereButNoEditSelected && <EditsThereButNoEditSelectedBanner />}
+          {selectedEditId && <EditEditor editRes={editRes} />}
         </>
       </PanelLayout>
     </>
