@@ -15,6 +15,7 @@ const PanelButton = ({
 }) => {
   return (
     <button
+      onClick={onClick}
       className={`
         flex
         justify-between

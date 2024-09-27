@@ -13,7 +13,7 @@ export interface User {
   
   export interface Edit {
     edit_id: number;
-    created_by: number;
+    created_by: Member;
     name: string;
     isLive: boolean;
   }

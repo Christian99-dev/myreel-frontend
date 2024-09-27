@@ -262,7 +262,7 @@ export default function DebugGroupServices() {
             <ul>
               {getEditsResponse.edits.map((edit: Edit) => (
                 <li key={edit.edit_id}>
-                  {edit.name} (Created by: {edit.created_by}) - Live:{" "}
+                  {edit.name} (Created by: {edit.created_by.user_id}) - Live:{" "}
                   {edit.isLive ? "Yes" : "No"}
                 </li>
               ))}

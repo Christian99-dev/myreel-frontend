@@ -7,8 +7,8 @@ export default function UserTags({
 }) {
   return (
     <div className="flex">
-      {users.map(({ name, id }) => (
-        <div className="ml-[-5px]">
+      {users.map(({ name, id }, key) => (
+        <div className="ml-[-5px]" key={key}>
           <UserTag name={name} id={id} />
         </div>
       ))}
