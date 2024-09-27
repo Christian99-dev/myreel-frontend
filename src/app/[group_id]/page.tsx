@@ -20,6 +20,7 @@ import {
 import { Edit } from "@/types/EditService";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import LoadingText from "@/components/shared/LoadingText";
 
 export default function Page() {
   const { group_id: group_id_param } = useParams<{ group_id: string }>();
@@ -113,11 +114,12 @@ export default function Page() {
   if (pageIsLoading || noEditSelected)
     return (
       <div className="w-screen h-screen bg-purple-dark flex items-center justify-center flex-col">
-        <h1 className="fs-4 font-medium text-pink-very-light">
-          Trette Gruppe bei ...
+        <h1 className="fs-7 font-normal text-pink-very-light">
+          <LoadingText text="Trette Gruppe bei"/>
         </h1>
         <Icon
-          strokeWidth={4}
+          floating={true}
+          strokeWidth={3}
           name="bigHero"
           customSizeTailwindString="text-[600px]"
           color="pink-very-light"

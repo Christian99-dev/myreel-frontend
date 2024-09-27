@@ -8,6 +8,7 @@ import { Song } from "@/types/SongService";
 import { SongService } from "@/services/backend/SongService";
 import { EditService } from "@/services/backend/EditService";
 import Icon from "../shared/Icon";
+import LoadingText from "../shared/LoadingText";
 
 export default function CreateEditModal({
   open,
@@ -43,21 +44,25 @@ export default function CreateEditModal({
   return (
     <Modal title="Edit Erstellen" ref={modalRef} open={open} onClose={onClose}>
       <Slide>
-        <p>Wähle einen song aus</p>
         {songs ? (
-          <div className="flex flex-col max-h-[300px] overflow-auto w-full gap-[--spacing-2] ios-scrollbar">
-            <SongList
-              buttonName="Auswählen"
-              buttonIcon="rocket"
-              songs={songs}
-              onButtonClick={(song) => {
-                setSelectedSong(song);
-                modalRef.current?.slideTo(1);
-              }}
-            />
-          </div>
+          <>
+            <p className="fs-10 font-medium text-purple-light">Wähle einen song aus</p>
+            <div className="flex flex-col max-h-[300px] overflow-auto w-full gap-[--spacing-2] ios-scrollbar">
+              <SongList
+                buttonName="Auswählen"
+                buttonIcon="rocket"
+                songs={songs}
+                onButtonClick={(song) => {
+                  setSelectedSong(song);
+                  modalRef.current?.slideTo(1);
+                }}
+              />
+            </div>
+          </>
         ) : (
-          <div>Loading ...</div>
+          <h1 className="fs-10 text-purple-light font-medium">
+            <LoadingText text="Lade Songs" />
+          </h1>
         )}
       </Slide>
       <Slide>
@@ -106,7 +111,7 @@ export default function CreateEditModal({
                     .onSuccess(({ edit_id }) => {
                       modalRef.current?.slideTo(0);
                       setActiveEditId(edit_id);
-                      setEditName("")
+                      setEditName("");
                       onClose();
                     });
                 }}
@@ -127,7 +132,9 @@ export default function CreateEditModal({
       </Slide>
 
       <Slide className="text-center">
-        <h1>Bitte warten</h1>
+        <h1 className="fs-10 text-purple-light font-medium">
+          <LoadingText text="Bitte warten" />
+        </h1>
         <Icon
           floating={true}
           name="bigHero"

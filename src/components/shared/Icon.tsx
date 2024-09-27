@@ -94,7 +94,7 @@ export default function Icon({
     ${applyHover ? `hover:stroke-${hoverColor}` : ``}
     ${disabled ? `opacity-50 cursor-not-allowed` : `opacity-100`}
     ${cursorClass}
-    ${floating ? "float" : ""} // Floating-Klasse hinzufügen
+    ${floating ? "animate-float" : ""}
   `;
 
   if (disabled) {

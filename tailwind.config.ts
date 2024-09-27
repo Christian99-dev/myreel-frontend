@@ -54,8 +54,8 @@ const config: Config = {
     },
     keyframes: {
       float: {
-        '0%, 100%': { transform: 'translateY(0px)' },
-        '50%': { transform: 'translateY(-100px)' },
+        '0%, 100%': { transform: 'translateY(10px)' },
+        '50%': { transform: 'translateY(-10px)' },
       },
     },
     animation: {
