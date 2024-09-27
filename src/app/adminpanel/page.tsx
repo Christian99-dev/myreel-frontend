@@ -27,14 +27,21 @@ export default function Page() {
   }, []);
 
   return (
-    <PanelLayout title="Admin Panel">
+    <PanelLayout>
+      <>
+        <h1 className="fs-9 text-pink-very-light text-center font-bold ">Admin Panel</h1>
+      </>
       <>
         <PanelButton text="Songs" active />
       </>
 
       <>
         <div className="flex flex-col gap-[--spacing-5]">
-          {songs ? <SongList songs={songs} onSuccessfullDelete={() => updateSongs()} /> : "Loading..."}
+          {songs ? (
+            <SongList songs={songs} onSuccessfullDelete={() => updateSongs()} />
+          ) : (
+            "Loading..."
+          )}
           <AddSong onSuccessfullAdd={() => updateSongs()} />
         </div>
       </>

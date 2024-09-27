@@ -16,6 +16,7 @@ export default function Page() {
   const groupService = new GroupService();
   const [inviteFriendsModal, setInviteFriedsModal] = useState(false);
 
+  // Intial get group 
   useEffect(() => {
     if (!group_id_param) {
       // Falls group_id_param nicht vorhanden ist, leite zur Startseite weiter
@@ -59,7 +60,8 @@ export default function Page() {
           groupid={group.group_id}
         />
       )}
-      <PanelLayout title={group ? group.group_name : "Loading ... "}>
+      <PanelLayout >
+        <>group ? group.group_name : "Loading ... "</>
         <></>
         <>
           {group && (
