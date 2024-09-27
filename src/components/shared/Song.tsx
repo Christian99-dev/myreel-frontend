@@ -39,23 +39,28 @@ export default function Song({
 
   return (
     <div
-      className="flex w-full justify-between items-center border-purple-light rounded-main p-[--spacing-5] border-[1px] bg-purple-very-dark hover:cursor-pointer group"
-      onClick={onPlayPause} // Play/pause handled by parent
+      className="flex w-full justify-between items-center border-purple-light rounded-main p-[--spacing-5] border-[1px] bg-purple-very-dark group"
     >
-      <Cover img={img} isPlaying={isPlaying} />
-      <div className="text-left flex-1 pl-[--spacing-4]">
+      {/* Cover Bereich mit Cursor-Pointer und group-hover Effekten */}
+      <div className="cursor-pointer hover:cursor-pointer" onClick={onPlayPause}>
+        <Cover img={img} isPlaying={isPlaying} />
+      </div>
+      
+      {/* Textbereich mit Cursor-Pointer */}
+      <div className="text-left flex-1 pl-[--spacing-4] cursor-pointer hover:cursor-pointer" onClick={onPlayPause}>
         <div className="fs-9 font-bold text-pink-very-light pb-[--spacing-2]">
           {name}
         </div>
         <div className="fs-10 text-purple-light">{author}</div>
       </div>
 
-      {/* Delete button */}
+      {/* Delete Button mit eigenem Cursor */}
       <div className="pr-[--spacing-4]">
         <Button
           text={buttonName}
           iconName={buttonIcon}
           onClick={buttonOnClick}
+          // className="cursor-auto" // Sicherstellen, dass der Button den eigenen Cursor verwendet
         />
       </div>
 
@@ -70,7 +75,7 @@ const Cover = ({ img, isPlaying }: { img: string; isPlaying: boolean }) => {
 
   return (
     <div className="h-[75px] relative aspect-square group-hover:cursor-pointer">
-      {/* Overlay that appears on hover or when isPlaying is true */}
+      {/* Overlay, das bei Hover oder wenn isPlaying true ist, angezeigt wird */}
       <div
         className={`
           ${base} bg-purple z-[11] bg-opacity-75 flex items-center justify-center
@@ -80,8 +85,8 @@ const Cover = ({ img, isPlaying }: { img: string; isPlaying: boolean }) => {
       >
         <Icon name={isPlaying ? "pause" : "play"} color="pink-very-light" />
       </div>
-      {/* Image */}
-      <img src={img} className={`${base} object-cover z-[10]`} />
+      {/* Bild */}
+      <img src={img} className={`${base} object-cover z-[10]`} alt={`${name} Cover`} />
     </div>
   );
 };
