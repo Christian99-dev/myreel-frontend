@@ -45,14 +45,16 @@ export default function Page() {
               buttonName="Löschen"
               songs={songs}
               onButtonClick={(song) => {
-                songService
-                  .deleteSong(song.song_id)
-                  .onSuccess(() => {
-                    updateSongs();
-                  })
-                  .onError((_, statuscode) => {
-                    alert(statuscode);
-                  });
+                if (confirm(song.name + " wirklich Löschen?")) {
+                  songService
+                    .deleteSong(song.song_id)
+                    .onSuccess(() => {
+                      updateSongs();
+                    })
+                    .onError((_, statuscode) => {
+                      alert(statuscode);
+                    });
+                }
               }}
             />
           ) : (
