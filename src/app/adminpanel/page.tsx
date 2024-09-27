@@ -41,6 +41,8 @@ export default function Page() {
         <div className="flex flex-col gap-[--spacing-5]">
           {songs ? (
             <SongList
+              buttonIcon="thrash"
+              buttonName="Löschen"
               songs={songs}
               onButtonClick={(song_id) => {
                 songService
