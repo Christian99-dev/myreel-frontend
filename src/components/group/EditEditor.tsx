@@ -1,30 +1,36 @@
 import { GetEditResponse } from "@/types/EditService";
-import { useEffect, useState } from "react";
-import LoadingText from "../shared/LoadingText";
-import Icon from "@/components/shared/Icon";
-import { EditService } from "@/services/backend/EditService";
+import UserTags from "../shared/UserTags";
+import EditVideo from "./EditVideo";
 
-export default function EditEditor({ editRes }: { editRes: GetEditResponse | null | undefined }) {
-  if (!editRes || editRes.edit.video_src === "") return <Loading />;
+export default function EditEditor({ editRes }: { editRes: GetEditResponse }) {
+
+  const {slots, edit : {name, video_src}} = editRes
+  const users = slots
+  .filter(slot => slot.occupied_by)
+  .map(slot => ({
+    name: slot.occupied_by!.name,
+    id: slot.occupied_by!.user_id
+  }))
+  .reduce((uniqueUsers, user) => {
+    if (!uniqueUsers.some(existingUser => existingUser.id === user.id)) {
+      uniqueUsers.push(user);
+    }
+    return uniqueUsers;
+  }, [] as { name: string, id: number }[]);
+
 
   return (
-    <div className="w-full h-full">
-      Active edit : {editRes.edit.edit_id} {editRes.edit.video_src}
+    <div className="w-full h-full flex flex-col items-center mt-[--spacing-4]">
+      {/**Title and Users */}
+      <h1 className="fs-9 font-medium text-purple-light pb-[--spacing-4]">{name}</h1>
+      <UserTags users={users} />
+
+      {/** Edit */}
+      <EditVideo videoSrc={video_src}/>
+      
+      {/** Slots */}
+      
     </div>
   );
 }
 
-const Loading = () => (
-  <div className="w-full h-full bg-purple-dark flex items-center justify-center flex-col">
-    <h1 className="fs-7 text-bold pb-[--spacing-10] font-normal text-pink-very-light">
-      <LoadingText text="Edit wird geladen" />
-    </h1>
-    <Icon
-      floating={true}
-      strokeWidth={3}
-      name="bigHero"
-      customSizeTailwindString="text-[150px]"
-      color="pink-very-light"
-    />
-  </div>
-);

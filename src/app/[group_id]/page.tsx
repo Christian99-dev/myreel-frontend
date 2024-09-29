@@ -46,9 +46,11 @@ export default function Page() {
   
   // Page behaviour
   const pageIsLoading = !groupRes || !me || !membersRes || !editsRes;
-  const noEditSelected = !selectedEditId;
   const noEditsInGroup = editsRes?.edits.length == 0;
+  const noEditSelected = !selectedEditId;
   const EditsThereButNoEditSelected = !noEditsInGroup && noEditSelected;
+  const EditIsSelectedButResIsLoading = !noEditSelected && (!editRes || editRes.edit.video_src === "")
+  const editIsLoaded = editRes && editRes.edit.video_src !== ""
 
   // Workaround, selectedID ist im callback undefined zu dem zeitpunkt der initialisierung
   const selectedEditIdRef = useRef<number | null | undefined>(null);
@@ -236,7 +238,8 @@ export default function Page() {
         <>
           {noEditsInGroup && <NoEditsInGroupBanner />}
           {EditsThereButNoEditSelected && <EditsThereButNoEditSelectedBanner />}
-          {selectedEditId && <EditEditor editRes={editRes} />}
+          {EditIsSelectedButResIsLoading && <LoadingBanner/>}
+          {editIsLoaded && <EditEditor editRes={editRes} />}
         </>
       </PanelLayout>
     </>
@@ -267,3 +270,18 @@ const NoEditsInGroupBanner = () => {
     </div>
   );
 };
+
+const LoadingBanner = () => (
+  <div className="w-full h-full bg-purple-dark flex items-center justify-center flex-col">
+    <h1 className="fs-7 text-bold pb-[--spacing-10] font-normal text-pink-very-light">
+      <LoadingText text="Edit wird geladen" />
+    </h1>
+    <Icon
+      floating={true}
+      strokeWidth={3}
+      name="bigHero"
+      customSizeTailwindString="text-[150px]"
+      color="pink-very-light"
+    />
+  </div>
+);
