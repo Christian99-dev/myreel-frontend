@@ -49,7 +49,8 @@ export class EditSlotService extends BaseService {
     const formData = new FormData();
     formData.append("start_time", data.start_time.toString());
     formData.append("end_time", data.end_time.toString());
-    formData.append("video_file", data.video_file);
+    if(data.video_file)
+      formData.append("video_file", data.video_file);
 
     return this.putFormData<ChangeSlotResponse>(
       `/${edit_id}/slot/${occupied_slot_id}`,

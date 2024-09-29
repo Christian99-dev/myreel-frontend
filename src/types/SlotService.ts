@@ -15,7 +15,7 @@ export interface DeleteSlotResponse {
 export interface ChangeSlotRequest {
   start_time: number;
   end_time: number;
-  video_file: File;
+  video_file?: File;
 }
 
 export interface ChangeSlotResponse {

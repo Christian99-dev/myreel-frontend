@@ -10,6 +10,7 @@ export interface Slot {
   end_time: number;
   occupied_by?: User; // Optional
   occupied_id?: number; // Optional
+  video_src?: string; // Optional
 }
 
 export interface Edit {
