@@ -5,6 +5,7 @@ import {
   useCallback,
   MouseEvent as ReactMouseEvent,
 } from "react";
+import ReactPlayer from "react-player";
 import Icon from "../shared/Icon";
 
 export default function EditVideo({
@@ -14,7 +15,7 @@ export default function EditVideo({
   videoSrc: string;
   className: string;
 }) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const playerRef = useRef<ReactPlayer | null>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -23,13 +24,6 @@ export default function EditVideo({
 
   // Play/Pause Toggle
   const togglePlayPause = () => {
-    if (!videoRef.current) return;
-
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
     setIsPlaying(!isPlaying);
   };
 
@@ -70,7 +64,7 @@ export default function EditVideo({
   }, [isDragging, handlePointerMove, handlePointerUp]);
 
   const seek = (e: MouseEvent | ReactMouseEvent<HTMLDivElement>) => {
-    if (!progressBarRef.current || !videoRef.current || duration === 0) return;
+    if (!progressBarRef.current || duration === 0) return;
 
     const rect = progressBarRef.current.getBoundingClientRect();
     let clickX = e.clientX - rect.left;
@@ -84,31 +78,38 @@ export default function EditVideo({
     const validTime = Math.max(0, Math.min(newTime, duration));
 
     setCurrentTime(validTime);
-    videoRef.current.currentTime = validTime;
+    if (playerRef.current) {
+      playerRef.current.seekTo(validTime, "seconds");
+    }
   };
 
+  const handleProgress = (state: { playedSeconds: number }) => {
+    if (!isDragging) {
+      setCurrentTime(state.playedSeconds);
+    }
+  };
+
+  const handleDuration = (dur: number) => {
+    setDuration(dur);
+  };
 
   return (
     <div className={`${className} w-full mt-4 flex flex-col items-center`}>
       {/* Video Element */}
-      <video
-        preload="auto"
-        ref={videoRef}
-        src={videoSrc}
-        className="h-[500px] aspect-[9/16] rounded-main shadow-main mb-5 object-cover"
-        onTimeUpdate={(video) => {
-          setCurrentTime(video.currentTarget.currentTime)
-        }}
-        onLoadedMetadata={() => {
-          if (videoRef.current) {
-            setDuration(videoRef.current.duration);
-          }
-        }}
-        onEnded={() => {
-          setIsPlaying(false);
-          setCurrentTime(0);
-        }}
-      />
+      <div className="relative aspect-[9/16] h-[430px] mb-4">
+        <ReactPlayer
+          width="100%"
+          height="100%"
+          ref={playerRef}
+          url={videoSrc}
+          playing={isPlaying}
+          controls={false}
+          onProgress={handleProgress}
+          onDuration={handleDuration}
+          className="absolute top-0 left-0 bottom-0 right-0 rounded-main shadow-main object-cover w-auto h-auto"
+          progressInterval={25}
+        />
+      </div>
 
       {/* Play/Pause Button */}
       <Icon
