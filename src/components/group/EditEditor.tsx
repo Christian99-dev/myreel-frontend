@@ -28,7 +28,7 @@ export default function EditEditor({ editRes, me, selectedEditId }: { editRes: G
       <UserTags users={users} />
 
       {/** Edit */}
-      <EditVideo videoSrc={video_src} className="mb-[--spacing-10]" />
+      <EditVideo videoSrc={video_src + "?randomkey="+ (Math.random() + 1).toString(36).substring(7)} className="mb-[--spacing-10]" /> 
       
       {/** Slots */}
       <SlotEditor slots={slots} me={me} selectedEditId={selectedEditId} isLive={isLive} />
