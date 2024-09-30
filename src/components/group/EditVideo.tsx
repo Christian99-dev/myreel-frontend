@@ -83,10 +83,8 @@ export default function EditVideo({
     // Validierung von newTime
     const validTime = Math.max(0, Math.min(newTime, duration));
 
-    console.log(validTime)
-
-    videoRef.current.currentTime = validTime;
     setCurrentTime(validTime);
+    videoRef.current.currentTime = validTime;
   };
 
 
@@ -94,16 +92,14 @@ export default function EditVideo({
     <div className={`${className} w-full mt-4 flex flex-col items-center`}>
       {/* Video Element */}
       <video
+        preload="auto"
         ref={videoRef}
         src={videoSrc}
         className="h-[500px] aspect-[9/16] rounded-main shadow-main mb-5 object-cover"
         onTimeUpdate={(video) => {
-          console.log(video.currentTarget.currentTime)
-          if(video.currentTarget.currentTime == 0) return 
           setCurrentTime(video.currentTarget.currentTime)
         }}
         onLoadedMetadata={() => {
-          
           if (videoRef.current) {
             setDuration(videoRef.current.duration);
           }
