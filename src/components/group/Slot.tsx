@@ -31,8 +31,6 @@ export default function Slot({
   const lockedSlotStyle = `cursor-not-allowed`
   const selectedStyle =  selected ? "!top-[-5px] !bottom-[5px]" : ""
 
-  console.log(selected)
-
   return (
     <div
       className="h-[75px] relative"

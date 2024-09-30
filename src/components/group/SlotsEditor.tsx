@@ -119,7 +119,13 @@ export default function SlotsEditor({
           </h2>
         )}
 
-        {selectedSlot && !isLive && <SlotEditor slot={selectedSlot} />}
+        {selectedSlot && !isLive && selectedEditId && (
+          <SlotEditor
+            edit_id={selectedEditId}
+            slot={selectedSlot}
+            occupied_by_me={selectedSlot.occupied_by?.user_id === me.id}
+          />
+        )}
       </div>
     </>
   );
