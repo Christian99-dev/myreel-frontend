@@ -53,6 +53,7 @@ export default function Icon({
   disabled = false,
   floating = false,
   onlyCursor = false,
+  customStrokeColor
 }: {
   name: IconKey;
   size?: FontSize;
@@ -65,6 +66,7 @@ export default function Icon({
   disabled?: boolean;
   floating?: boolean;
   onlyCursor?: boolean;
+  customStrokeColor?: string;
 }) {
   // get icon
   const SvgIcon = iconMap[name];
@@ -100,6 +102,7 @@ export default function Icon({
     ${cursorClass}
     ${floating ? "animate-float" : ""}
     ${onlyCursor ? "cursor-pointer" : ""}
+    ${customStrokeColor}
   `;
 
   if (disabled) {

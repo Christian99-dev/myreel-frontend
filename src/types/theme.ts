@@ -27,6 +27,16 @@ export type MainColor =
 | "purple-light" 
 | "purple" 
 | "purple-dark" 
+
+export type SlotColorLiteral = 
+| "slot-theme-1" 
+| "slot-theme-2" 
+| "slot-theme-3" 
+| "slot-theme-4" 
+| "slot-theme-5" 
+| "slot-theme-6" 
+| "slot-theme-7" 
+
 export type SlotColor = 1 | 2 | 3 | 4 | 5 | 6 | 7
 export type UserColor = 1 | 2 | 3 | 4 | 5 | 6
 

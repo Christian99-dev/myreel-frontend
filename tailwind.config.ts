@@ -15,6 +15,8 @@ const config: Config = {
   ],
   theme: {
     colors: {
+      "green": "#5BC236",
+
       "pink-very-light": "#E8D2FF",
       "purple-light": "#A688FA",
       "purple": "#853BCE",

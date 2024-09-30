@@ -83,6 +83,8 @@ export default function EditVideo({
     // Validierung von newTime
     const validTime = Math.max(0, Math.min(newTime, duration));
 
+    console.log(validTime)
+
     videoRef.current.currentTime = validTime;
     setCurrentTime(validTime);
   };
@@ -96,10 +98,12 @@ export default function EditVideo({
         src={videoSrc}
         className="h-[500px] aspect-[9/16] rounded-main shadow-main mb-5 object-cover"
         onTimeUpdate={(video) => {
+          console.log(video.currentTarget.currentTime)
           if(video.currentTarget.currentTime == 0) return 
           setCurrentTime(video.currentTarget.currentTime)
         }}
         onLoadedMetadata={() => {
+          
           if (videoRef.current) {
             setDuration(videoRef.current.duration);
           }
@@ -119,7 +123,7 @@ export default function EditVideo({
       />
 
       {/* Progress Bar */}
-      <div className="w-full max-w-lg flex items-center bg-purple bg-opacity-50 mt-[--spacing-2]">
+      <div className="w-[70%] flex items-center bg-purple bg-opacity-50 mt-[--spacing-2]">
         <div
           className="relative flex-1 h-1 bg-gray-300 rounded-full cursor-pointer"
           ref={progressBarRef}
