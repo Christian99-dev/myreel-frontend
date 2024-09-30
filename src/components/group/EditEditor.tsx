@@ -6,7 +6,7 @@ import SlotEditor from "./SlotsEditor";
 
 export default function EditEditor({ editRes, me, selectedEditId }: { editRes: GetEditResponse, me: User, selectedEditId: number | null | undefined }) {
 
-  const {slots, edit : {name, video_src}} = editRes
+  const {slots, edit : {name, video_src, isLive}} = editRes
   const users = slots
   .filter(slot => slot.occupied_by)
   .map(slot => ({
@@ -31,7 +31,7 @@ export default function EditEditor({ editRes, me, selectedEditId }: { editRes: G
       <EditVideo videoSrc={video_src} className="mb-[--spacing-10]" />
       
       {/** Slots */}
-      <SlotEditor slots={slots} me={me} selectedEditId={selectedEditId} />
+      <SlotEditor slots={slots} me={me} selectedEditId={selectedEditId} isLive={isLive} />
       
     </div>
   );

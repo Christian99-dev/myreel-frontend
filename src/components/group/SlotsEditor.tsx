@@ -4,17 +4,21 @@ import Slot from "./Slot";
 import { useEffect, useState } from "react";
 import Button from "../shared/Button";
 import SlotEditor from "./SlotEditor";
+import GoLiveModal from "./GoLiveModal";
 
 export default function SlotsEditor({
   slots,
   me,
   selectedEditId,
+  isLive,
 }: {
   slots: SlotType[];
   me: User;
   selectedEditId: number | null | undefined;
+  isLive: boolean;
 }) {
   const [selectedSlot, setSelectedSlot] = useState<SlotType | null>(null);
+  const [goLiveModal, setGoLiveModal] = useState(false);
   const allSlotsAreOccupied = slots.every(
     (slot) => slot.occupied_by !== null && slot.occupied_by !== undefined
   );
@@ -51,7 +55,12 @@ export default function SlotsEditor({
 
   return (
     <>
-      {allSlotsAreOccupied && (
+      <GoLiveModal
+        open={goLiveModal}
+        onClose={() => setGoLiveModal(false)}
+        editId={selectedEditId}
+      />
+      {allSlotsAreOccupied && !isLive && (
         <div className="flex flex-col items-center gap-[--spacing-8] mb-[--spacing-10]">
           <h2 className="font-medium fs-9 text-purple-light text-center flex flex-col">
             {me.role === "creator"
@@ -59,8 +68,17 @@ export default function SlotsEditor({
               : "Ein Admin kann das Reel jetzt hochladen"}
           </h2>
           {me.role === "creator" && (
-            <Button iconName="rocket" text="Hochladen" />
+            <Button
+              iconName="rocket"
+              text="Hochladen"
+              onClick={() => setGoLiveModal(true)}
+            />
           )}
+        </div>
+      )}
+      {isLive && (
+        <div className="flex flex-col items-center gap-[--spacing-8] mb-[--spacing-10]">
+          Edit ist Hochgeladen!
         </div>
       )}
       <div className="flex w-[70%]">
@@ -95,13 +113,13 @@ export default function SlotsEditor({
         })}
       </div>
       <div className="py-[--spacing-10] text-center">
-        {!selectedSlot && (
+        {!selectedSlot && !isLive && (
           <h2 className="font-medium fs-7 text-purple-light opacity-50">
             Wähle einen slot aus
           </h2>
         )}
 
-        {selectedSlot && <SlotEditor slot={selectedSlot} />}
+        {selectedSlot && !isLive && <SlotEditor slot={selectedSlot} />}
       </div>
     </>
   );
