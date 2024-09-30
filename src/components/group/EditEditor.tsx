@@ -2,7 +2,7 @@ import { GetEditResponse } from "@/types/EditService";
 import UserTags from "../shared/UserTags";
 import EditVideo from "./EditVideo";
 import { User } from "@/types/GroupService";
-import SlotEditor from "./SlotEditor";
+import SlotEditor from "./SlotsEditor";
 
 export default function EditEditor({ editRes, me }: { editRes: GetEditResponse, me: User }) {
 

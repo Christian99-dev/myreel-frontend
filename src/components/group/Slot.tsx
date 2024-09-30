@@ -9,12 +9,14 @@ export default function Slot({
   widthPercentage,
   backgroundColor,
   strokeColor,
+  onClick
 }: {
   slot: SlotType;
   me: User;
   widthPercentage: number;
   backgroundColor: string;
   strokeColor: string;
+  onClick: () => void
 }) {
   const byMe = slot.occupied_by && slot.occupied_by.user_id === me.id
 
@@ -23,7 +25,7 @@ export default function Slot({
   } to-100%`;
   const border = byMe ? "border-2 border-green" : "";
 
-  const openSlotStyle = `hover:top-[-5px] cursor-pointer`
+  const openSlotStyle = `hover:top-[-5px] hover:bottom-[5px] cursor-pointer`
   const lockedSlotStyle = `cursor-not-allowed`
 
   return (
@@ -32,15 +34,17 @@ export default function Slot({
       style={{
         width: `${widthPercentage}%`,
       }}
+      onClick={() => !(slot.occupied_by && !byMe) && onClick()}
     >
       <div
-        className={`absolute ${border} ${background} ${slot.occupied_by ? lockedSlotStyle : openSlotStyle} flex flex-col justify-center items-center rounded-main top-0 bottom-0 left-0 right-0 transition-all gap-[--spacing-1]`}
+        className={`absolute ${border} ${background} ${slot.occupied_by && !byMe ? lockedSlotStyle : openSlotStyle} flex flex-col justify-center items-center rounded-main top-0 bottom-0 left-0 right-0 transition-all gap-[--spacing-1]`}
       >
         <Icon
           customStrokeColor={strokeColor}
           color="purple"
           name={slot.occupied_by ? "lockClosed" : "lockOpen"}
           onlyCursor={!slot.occupied_by}
+          
         />
         {slot.occupied_by && <UserTag name={slot.occupied_by.name} id={slot.occupied_by.user_id}/>}
       </div>
