@@ -9,14 +9,16 @@ export default function Slot({
   widthPercentage,
   backgroundColor,
   strokeColor,
-  onClick
+  onClick,
+  selected
 }: {
   slot: SlotType;
   me: User;
   widthPercentage: number;
   backgroundColor: string;
   strokeColor: string;
-  onClick: () => void
+  onClick: () => void;
+  selected: boolean
 }) {
   const byMe = slot.occupied_by && slot.occupied_by.user_id === me.id
 
@@ -27,6 +29,9 @@ export default function Slot({
 
   const openSlotStyle = `hover:top-[-5px] hover:bottom-[5px] cursor-pointer`
   const lockedSlotStyle = `cursor-not-allowed`
+  const selectedStyle =  selected ? "!top-[-5px] !bottom-[5px]" : ""
+
+  console.log(selected)
 
   return (
     <div
@@ -37,7 +42,7 @@ export default function Slot({
       onClick={() => !(slot.occupied_by && !byMe) && onClick()}
     >
       <div
-        className={`absolute ${border} ${background} ${slot.occupied_by && !byMe ? lockedSlotStyle : openSlotStyle} flex flex-col justify-center items-center rounded-main top-0 bottom-0 left-0 right-0 transition-all gap-[--spacing-1]`}
+        className={`absolute ${border} ${selectedStyle} ${background} ${slot.occupied_by && !byMe ? lockedSlotStyle : openSlotStyle} flex flex-col justify-center items-center rounded-main top-0 bottom-0 left-0 right-0 transition-all gap-[--spacing-1]`}
       >
         <Icon
           customStrokeColor={strokeColor}

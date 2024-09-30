@@ -8,11 +8,11 @@ import SlotEditor from "./SlotEditor";
 export default function SlotsEditor({
   slots,
   me,
-  selectedEditId
+  selectedEditId,
 }: {
   slots: SlotType[];
   me: User;
-  selectedEditId: number | null | undefined
+  selectedEditId: number | null | undefined;
 }) {
   const [selectedSlot, setSelectedSlot] = useState<SlotType | null>(null);
   const allSlotsAreOccupied = slots.every(
@@ -46,8 +46,8 @@ export default function SlotsEditor({
   ];
 
   useEffect(() => {
-    setSelectedSlot(null)
-  }, [selectedEditId])
+    setSelectedSlot(null);
+  }, [selectedEditId]);
 
   return (
     <>
@@ -74,6 +74,7 @@ export default function SlotsEditor({
 
           return (
             <Slot
+              selected={selectedSlot?.slot_id === slot.slot_id}
               key={key}
               slot={slot}
               me={me}
