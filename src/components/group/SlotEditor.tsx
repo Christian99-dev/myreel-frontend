@@ -12,11 +12,24 @@ import ReactPlayer from "react-player";
 import Button from "../shared/Button";
 import PreviewModal from "./PreviewModal";
 import { PreviewSlotRequest } from "@/types/SlotService";
-import { fetchVideoFile } from "@/utils/fetchVideoFile"; 
+import { fetchVideoFile } from "@/utils/fetchVideoFile";
+import LoadingModal from "./LoadingModal";
+import { EditSlotService } from "@/services/backend/SlotService";
 
-export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: SlotType, edit_id: number, occupied_by_me:boolean }) {
+export default function SlotEditor({
+  slot,
+  edit_id,
+  occupied_by_me,
+}: {
+  slot: SlotType;
+  edit_id: number;
+  occupied_by_me: boolean;
+}) {
+  console.log("rerender");
   const [previewModal, setPreviewModal] = useState(false);
-  const [previewSlotRequest, setPreviewSlotRequest] = useState<PreviewSlotRequest | null>(null)
+  const [loadingModal, setLoadingModal] = useState(false);
+  const [previewSlotRequest, setPreviewSlotRequest] =
+    useState<PreviewSlotRequest | null>(null);
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoSrc, setVideoSrc] = useState<string | undefined>(slot.video_src);
@@ -27,8 +40,7 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
   const [duration, setDuration] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [draggingDot, setDraggingDot] = useState<"start" | "end" | null>(null);
-
-
+  const editSlotService = new EditSlotService();
 
   const slotDuration = slot.end_time - slot.start_time;
 
@@ -71,7 +83,9 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
         // Begrenzen von clickX auf den Bereich der Progress Bar
         clickX = Math.max(0, Math.min(clickX, rect.width));
 
+        // Berechnung der neuen Zeit ohne Rundung
         const newTime = (clickX / rect.width) * duration;
+
         const slotDuration = slot.end_time - slot.start_time;
 
         if (draggingDot === "start") {
@@ -80,6 +94,8 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
             0,
             Math.min(newTime, duration - slotDuration)
           );
+
+          // Setze die exakten Start- und Endzeiten
           setSelectedStartTime(constrainedStart);
           setSelectedEndTime(constrainedStart + slotDuration);
         } else if (draggingDot === "end") {
@@ -88,12 +104,14 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
             duration,
             Math.max(newTime, slotDuration)
           );
+
+          // Setze die exakten End- und Startzeiten
           setSelectedEndTime(constrainedEnd);
           setSelectedStartTime(constrainedEnd - slotDuration);
         }
       }
     },
-    [isDragging, draggingDot, duration, slotDuration]
+    [isDragging, draggingDot, duration, slot]
   );
 
   const handlePointerUp = useCallback(() => {
@@ -166,25 +184,25 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
   }, [videoFile]);
 
   useEffect(() => {
-
+    console.log(slot);
     setSelectedStartTime(slot.occupied_start_time || 0);
     setSelectedEndTime(
       slot.occupied_endtime || (slot.occupied_start_time || 0) + slotDuration
     );
     setVideoSrc(slot.video_src || undefined);
 
-    if(occupied_by_me && slot.video_src){
-        // Verwende die Utility-Methode zum Abrufen des VideoFiles
-        const fetchAndSetVideoFile = async () => {
-          try {
-            if(!slot.video_src) return
-            const file = await fetchVideoFile(slot.video_src);
-            setVideoFile(file);
-          } catch (error) {
-            setVideoFile(null);
-          }
-        };
-        fetchAndSetVideoFile();
+    if (occupied_by_me && slot.video_src) {
+      // Verwende die Utility-Methode zum Abrufen des VideoFiles
+      const fetchAndSetVideoFile = async () => {
+        try {
+          if (!slot.video_src) return;
+          const file = await fetchVideoFile(slot.video_src);
+          setVideoFile(file);
+        } catch (error) {
+          setVideoFile(null);
+        }
+      };
+      fetchAndSetVideoFile();
     } else {
       setVideoFile(null);
     }
@@ -217,9 +235,18 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
 
   return (
     <div className="w-full mt-4 flex flex-col items-center">
-
       {/**Modals */}
-      <PreviewModal previewSlotRequest={previewSlotRequest} open={previewModal} onClose={() => setPreviewModal(false)} editid={edit_id} slotid={slot.slot_id}/>
+      <PreviewModal
+        previewSlotRequest={previewSlotRequest}
+        open={previewModal}
+        onClose={() => setPreviewModal(false)}
+        editid={edit_id}
+        slotid={slot.slot_id}
+      />
+      <LoadingModal
+        open={loadingModal}
+        onClose={() => setLoadingModal(false)}
+      />
 
       {/* Button zum Entfernen des Videos */}
       <div className="flex justify-end gap-4 mb-4">
@@ -241,12 +268,16 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
             onDuration={handleDuration}
             progressInterval={100}
             muted={true}
-            className="rounded-main shadow-main object-cover absolute top-0 left-0 right-0 bottom-0 z-20"
+            className="rounded-main shadow-main object-contain absolute top-0 left-0 right-0 bottom-0 z-20"
           />
         )}
 
         {/* Dateiupload-Box */}
-        <div className="top-0 left-0 right-0 bottom-0 absolute z-10">
+        <div
+          className={`${
+            videoSrc ? "hidden border-none" : ""
+          } top-0 left-0 right-0 bottom-0 absolute z-10`}
+        >
           <FileUploadBox
             label="Video hochladen"
             accept="video/*"
@@ -304,20 +335,94 @@ export default function SlotEditor({ slot, edit_id, occupied_by_me }: { slot: Sl
               ></div>
             </div>
           </div>
-          {  <div className="mt-[--spacing-10] flex gap-[--spacing-3]">
-            <Button iconName="upload" text="Änderung Hochladen" disabled={videoSrc === null || videoFile === null} theme="dark"  />
-            <Button iconName="eye" text="Preview" onClick={(() => {
-              console.log(videoSrc, videoFile)
-              if(videoSrc === null || videoFile === null) return;
+          <div className="mt-[--spacing-10] flex gap-[--spacing-3]">
+            {occupied_by_me && (
+              <Button
+                iconName="upload"
+                text="Änderung Hochladen"
+                disabled={videoSrc === null || videoFile === null}
+                theme="dark"
+                onClick={() => {
+                  if (!slot.occupied_id) return;
+                  setLoadingModal(true);
+                  editSlotService
+                    .changeSlot(edit_id, slot.occupied_id, {
+                      start_time: selectedStartTime,
+                      end_time: selectedEndTime,
+                      video_file: videoFile || undefined,
+                    })
+                    .onError(() => {
+                      setLoadingModal(false);
+                      alert("Etwas ist schiefgelaufen!");
+                    })
+                    .onSuccess(() => {
+                      setLoadingModal(false);
+                    });
+                }}
+              />
+            )}
+            {!occupied_by_me && (
+              <Button
+                iconName="upload"
+                text="Slot Belegen"
+                disabled={videoSrc === null || videoFile === null}
+                theme="dark"
+                onClick={() => {
+                  if (!videoFile) return;
+                  setLoadingModal(true);
+                  editSlotService
+                    .addSlot(edit_id, slot.slot_id, {
+                      start_time: selectedStartTime,
+                      end_time: selectedEndTime,
+                      video_file: videoFile,
+                    })
+                    .onError(() => {
+                      setLoadingModal(false);
+                      alert("Etwas ist schiefgelaufen!");
+                    })
+                    .onSuccess(() => {
+                      setLoadingModal(false);
+                    });
+                }}
+              />
+            )}
+            <Button
+              iconName="eye"
+              text="Preview"
+              disabled={occupied_by_me}
+              onClick={() => {
+                console.log(videoSrc, videoFile);
+                if (videoSrc === null || videoFile === null) return;
 
-              setPreviewModal(true)
-              setPreviewSlotRequest({
-                end_time: selectedEndTime,
-                start_time: selectedStartTime, 
-                video_file: videoFile
-              })
-            })} />
-          </div>}
+                setPreviewModal(true);
+                setPreviewSlotRequest({
+                  start_time: selectedStartTime,
+                  end_time: selectedEndTime,
+                  video_file: videoFile,
+                });
+              }}
+            />
+            {occupied_by_me && (
+              <Button
+                iconName="upload"
+                text="Löschen"
+                theme="dark"
+                onClick={() => {
+                  if (!slot.occupied_id) return;
+                  setLoadingModal(true);
+                  editSlotService
+                    .deleteSlot(edit_id, slot.occupied_id, )
+                    .onError(() => {
+                      setLoadingModal(false);
+                      alert("Etwas ist schiefgelaufen!");
+                    })
+                    .onSuccess(() => {
+                      setLoadingModal(false);
+                    });
+                }}
+              />
+            )}
+          </div>
         </>
       )}
     </div>

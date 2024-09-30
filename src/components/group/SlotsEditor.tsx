@@ -22,10 +22,6 @@ export default function SlotsEditor({
   const allSlotsAreOccupied = slots.every(
     (slot) => slot.occupied_by !== null && slot.occupied_by !== undefined
   );
-  // Memoisiere die sortierten Slots, um die Performance zu optimieren
-  const sortedSlots = useMemo(() => {
-    return [...slots].sort((a, b) => a.start_time - b.start_time);
-  }, [slots]);
 
   // Berechnung der Gesamtdauer
   const totalDuration = slots.reduce(
@@ -86,7 +82,7 @@ export default function SlotsEditor({
         </div>
       )}
       <div className="flex w-[70%]">
-        {sortedSlots.map((slot, key) => {
+        {[...slots].sort((a, b) => a.start_time - b.start_time).map((slot, key) => {
           const { slot_id } = slot;
           // Berechnung der Dauer des einzelnen Slots
           const slotDuration = slot.end_time - slot.start_time;

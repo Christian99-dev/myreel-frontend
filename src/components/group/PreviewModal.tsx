@@ -31,6 +31,7 @@ export default function GoLiveModal({
       .previewSlot(editid, slotid, previewSlotRequest)
       .onError(() => {
         alert("Etwas ist schiefgelaufen!");
+        onClose()
       })
       .onSuccess((blob) => {
         setUrl(URL.createObjectURL(blob));
