@@ -239,7 +239,7 @@ export default function Page() {
           {noEditsInGroup && <NoEditsInGroupBanner />}
           {EditsThereButNoEditSelected && <EditsThereButNoEditSelectedBanner />}
           {EditIsSelectedButResIsLoading && <LoadingBanner/>}
-          {editIsLoaded && <EditEditor editRes={editRes} />}
+          {editIsLoaded && <EditEditor editRes={editRes} me={me} />}
         </>
       </PanelLayout>
     </>

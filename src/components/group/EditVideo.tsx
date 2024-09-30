@@ -7,13 +7,15 @@ import {
 } from "react";
 import Icon from "../shared/Icon";
 
-interface EditVideoProps {
+export default function EditVideo({
+  videoSrc,
+  className,
+}: {
   videoSrc: string;
-}
-
-export default function EditVideo({ videoSrc }: EditVideoProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  className: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
@@ -31,42 +33,10 @@ export default function EditVideo({ videoSrc }: EditVideoProps) {
     setIsPlaying(!isPlaying);
   };
 
-  // Update currentTime as video plays
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleTimeUpdate = () => {
-      if (!videoRef.current) return;
-      const time = videoRef.current.currentTime;
-      setCurrentTime(time);
-    };
-
-    const handleLoadedMetadata = () => {
-      const dur = video.duration;
-      setDuration(dur);
-    };
-
-    const handleVideoEnded = () => {
-      setIsPlaying(false);
-      setCurrentTime(0);
-    };
-
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
-    video.addEventListener("ended", handleVideoEnded);
-
-    return () => {
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      video.removeEventListener("ended", handleVideoEnded);
-    };
-  }, []);
-
   // Handle progress bar click or drag
   const handlePointerDown = (e: ReactMouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
-    seek(e);
+    seek(e.nativeEvent);
   };
 
   const handlePointerMove = useCallback(
@@ -78,14 +48,11 @@ export default function EditVideo({ videoSrc }: EditVideoProps) {
     [isDragging]
   );
 
-  const handlePointerUp = useCallback(
-    () => {
-      if (isDragging) {
-        setIsDragging(false);
-      }
-    },
-    [isDragging]
-  );
+  const handlePointerUp = useCallback(() => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
+  }, [isDragging]);
 
   useEffect(() => {
     if (isDragging) {
@@ -120,24 +87,27 @@ export default function EditVideo({ videoSrc }: EditVideoProps) {
     setCurrentTime(validTime);
   };
 
-  // Format time in mm:ss
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-      .toString()
-      .padStart(2, "0");
-    const seconds = Math.floor(time % 60)
-      .toString()
-      .padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
 
   return (
-    <div className="w-full mt-4 flex flex-col items-center">
+    <div className={`${className} w-full mt-4 flex flex-col items-center`}>
       {/* Video Element */}
       <video
         ref={videoRef}
         src={videoSrc}
         className="h-[500px] aspect-[9/16] rounded-main shadow-main mb-5 object-cover"
+        onTimeUpdate={(video) => {
+          if(video.currentTarget.currentTime == 0) return 
+          setCurrentTime(video.currentTarget.currentTime)
+        }}
+        onLoadedMetadata={() => {
+          if (videoRef.current) {
+            setDuration(videoRef.current.duration);
+          }
+        }}
+        onEnded={() => {
+          setIsPlaying(false);
+          setCurrentTime(0);
+        }}
       />
 
       {/* Play/Pause Button */}

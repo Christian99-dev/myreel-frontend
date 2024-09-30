@@ -1,8 +1,10 @@
 import { GetEditResponse } from "@/types/EditService";
 import UserTags from "../shared/UserTags";
 import EditVideo from "./EditVideo";
+import { User } from "@/types/GroupService";
+import SlotEditor from "./SlotEditor";
 
-export default function EditEditor({ editRes }: { editRes: GetEditResponse }) {
+export default function EditEditor({ editRes, me }: { editRes: GetEditResponse, me: User }) {
 
   const {slots, edit : {name, video_src}} = editRes
   const users = slots
@@ -26,9 +28,10 @@ export default function EditEditor({ editRes }: { editRes: GetEditResponse }) {
       <UserTags users={users} />
 
       {/** Edit */}
-      <EditVideo videoSrc={video_src}/>
+      <EditVideo videoSrc={video_src} className="mb-[--spacing-10]" />
       
       {/** Slots */}
+      <SlotEditor slots={slots} me={me} />
       
     </div>
   );
