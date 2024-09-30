@@ -5,7 +5,7 @@ import Icon from "../shared/Icon";
 
 export default function SlotEditor({ slot }: { slot: SlotType }) {
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(slot.video_src);
 
   // Verwende useEffect, um eine URL für die Videodatei zu erstellen und den Speicher freizugeben, wenn die Komponente unmontiert wird.
   useEffect(() => {
@@ -18,9 +18,18 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
         URL.revokeObjectURL(fileUrl);
       };
     } else {
-      setVideoSrc(null);
+      setVideoSrc(undefined);
     }
   }, [videoFile]);
+
+  useEffect(() => {
+    if (slot.video_src) {
+      setVideoSrc(slot.video_src);
+    } else {
+      setVideoSrc(undefined);
+    }
+    setVideoFile(null);
+  }, [slot]);
 
   return (
     <div>
