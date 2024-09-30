@@ -1,16 +1,18 @@
 import { Slot as SlotType } from "@/types/EditService";
 import { User } from "@/types/GroupService";
 import Slot from "./Slot";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../shared/Button";
 import SlotEditor from "./SlotEditor";
 
 export default function SlotsEditor({
   slots,
   me,
+  selectedEditId
 }: {
   slots: SlotType[];
   me: User;
+  selectedEditId: number | null | undefined
 }) {
   const [selectedSlot, setSelectedSlot] = useState<SlotType | null>(null);
   const allSlotsAreOccupied = slots.every(
@@ -42,6 +44,10 @@ export default function SlotsEditor({
     "stroke-slot-theme-6",
     "stroke-slot-theme-7",
   ];
+
+  useEffect(() => {
+    setSelectedSlot(null)
+  }, [selectedEditId])
 
   return (
     <>
@@ -88,7 +94,7 @@ export default function SlotsEditor({
         })}
       </div>
       <div className="py-[--spacing-10] text-center">
-        {!selectedSlot && !allSlotsAreOccupied && (
+        {!selectedSlot && (
           <h2 className="font-medium fs-7 text-purple-light opacity-50">
             Wähle einen slot aus
           </h2>
