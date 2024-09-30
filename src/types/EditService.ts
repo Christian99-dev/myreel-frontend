@@ -11,6 +11,8 @@ export interface Slot {
   occupied_by?: User; // Optional
   occupied_id?: number; // Optional
   video_src?: string; // Optional
+  occupied_start_time?: number; // Optional
+  occupied_endtime?: number; // Optional
 }
 
 export interface Edit {

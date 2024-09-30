@@ -19,30 +19,70 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [draggingDot, setDraggingDot] = useState<'start' | 'end' | null>(null);
+  
+  const slotDuration = slot.end_time - slot.start_time;
+
+  const [selectedStartTime, setSelectedStartTime] = useState<number>(slot.occupied_start_time || 0);
+  const [selectedEndTime, setSelectedEndTime] = useState<number>(
+    slot.occupied_endtime || slotDuration
+  );
 
   // Play/Pause Toggle
   const togglePlayPause = () => {
+    if (!isPlaying) {
+      // Wenn das Video gestartet wird, setze die Startzeit
+      if (playerRef.current) {
+        playerRef.current.seekTo(selectedStartTime, "seconds");
+        setCurrentTime(selectedStartTime);
+      }
+    }
     setIsPlaying(!isPlaying);
   };
 
   // Handle progress bar click or drag
-  const handlePointerDown = (e: ReactMouseEvent<HTMLDivElement>) => {
+  const handlePointerDown = (
+    e: ReactMouseEvent<HTMLDivElement>,
+    dot: 'start' | 'end'
+  ) => {
+    e.stopPropagation(); // Verhindere das Auslösen anderer Event-Handler
     setIsDragging(true);
-    seek(e.nativeEvent);
+    setDraggingDot(dot);
+    seek(e.nativeEvent, dot);
   };
 
   const handlePointerMove = useCallback(
     (e: MouseEvent) => {
-      if (isDragging) {
-        seek(e);
+      if (isDragging && draggingDot && progressBarRef.current && duration > 0) {
+        const rect = progressBarRef.current.getBoundingClientRect();
+        let clickX = e.clientX - rect.left;
+
+        // Begrenzen von clickX auf den Bereich der Progress Bar
+        clickX = Math.max(0, Math.min(clickX, rect.width));
+
+        const newTime = (clickX / rect.width) * duration;
+        const slotDuration = slot.end_time - slot.start_time;
+
+        if (draggingDot === 'start') {
+          // Stelle sicher, dass newStartTime + slotDuration nicht die Dauer überschreitet
+          const constrainedStart = Math.max(0, Math.min(newTime, duration - slotDuration));
+          setSelectedStartTime(constrainedStart);
+          setSelectedEndTime(constrainedStart + slotDuration);
+        } else if (draggingDot === 'end') {
+          // Stelle sicher, dass newEndTime - slotDuration nicht negativ ist
+          const constrainedEnd = Math.min(duration, Math.max(newTime, slotDuration));
+          setSelectedEndTime(constrainedEnd);
+          setSelectedStartTime(constrainedEnd - slotDuration);
+        }
       }
     },
-    [isDragging]
+    [isDragging, draggingDot, duration, slotDuration]
   );
 
   const handlePointerUp = useCallback(() => {
     if (isDragging) {
       setIsDragging(false);
+      setDraggingDot(null);
     }
   }, [isDragging]);
 
@@ -61,7 +101,7 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
     };
   }, [isDragging, handlePointerMove, handlePointerUp]);
 
-  const seek = (e: MouseEvent | ReactMouseEvent<HTMLDivElement>) => {
+  const seek = (e: MouseEvent | ReactMouseEvent<HTMLDivElement>, dot?: 'start' | 'end') => {
     if (!progressBarRef.current || duration === 0) return;
 
     const rect = progressBarRef.current.getBoundingClientRect();
@@ -71,13 +111,16 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
     clickX = Math.max(0, Math.min(clickX, rect.width));
 
     const newTime = (clickX / rect.width) * duration;
+    const slotDuration = slot.end_time - slot.start_time;
 
-    // Validierung von newTime
-    const validTime = Math.max(0, Math.min(newTime, duration));
-
-    setCurrentTime(validTime);
-    if (playerRef.current) {
-      playerRef.current.seekTo(validTime, "seconds");
+    if (dot === 'start') {
+      const constrainedStart = Math.max(0, Math.min(newTime, duration - slotDuration));
+      setSelectedStartTime(constrainedStart);
+      setSelectedEndTime(constrainedStart + slotDuration);
+    } else if (dot === 'end') {
+      const constrainedEnd = Math.min(duration, Math.max(newTime, slotDuration));
+      setSelectedEndTime(constrainedEnd);
+      setSelectedStartTime(constrainedEnd - slotDuration);
     }
   };
 
@@ -97,13 +140,11 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
   }, [videoFile]);
 
   useEffect(() => {
-    if (slot.video_src) {
-      setVideoSrc(slot.video_src);
-    } else {
-      setVideoSrc(undefined);
-    }
+    setSelectedStartTime(slot.occupied_start_time || 0);
+    setSelectedEndTime(slot.occupied_endtime || (slot.occupied_start_time || 0) + slotDuration);
+    setVideoSrc(slot.video_src || undefined);
     setVideoFile(null);
-  }, [slot]);
+  }, [slot, slotDuration]);
 
   const handleProgress = useCallback(
     (state: { playedSeconds: number }) => {
@@ -111,10 +152,19 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
         // Verwende requestAnimationFrame für flüssigere Updates
         requestAnimationFrame(() => {
           setCurrentTime(state.playedSeconds);
+
+          // Überprüfe, ob die aktuelle Zeit das Endziel erreicht oder überschritten hat
+          if (state.playedSeconds >= selectedEndTime) {
+            setIsPlaying(false);
+            if (playerRef.current) {
+              playerRef.current.seekTo(selectedStartTime, "seconds");
+              setCurrentTime(selectedStartTime);
+            }
+          }
         });
       }
     },
-    [isDragging]
+    [isDragging, selectedEndTime, selectedStartTime]
   );
 
   const handleDuration = useCallback((dur: number) => {
@@ -169,26 +219,38 @@ export default function SlotEditor({ slot }: { slot: SlotType }) {
           />
 
           {/* Progress Bar */}
-          <div className="w-[70%] flex items-center bg-purple bg-opacity-50 mt-[--spacing-2]">
+          <div className="w-[70%] flex items-center bg-purple-light bg-opacity-50 mt-[--spacing-2]">
             <div
-              className="relative flex-1 h-1 bg-gray-300 rounded-[99px] cursor-pointer"
+              className="relative flex-1 h-[2px] bg-gray-300 rounded-[99px] cursor-pointer"
               ref={progressBarRef}
-              onMouseDown={handlePointerDown}
+              onMouseDown={(e) => seek(e.nativeEvent)}
             >
               {/* Progress Line */}
               <div
-                className="absolute top-0 left-0 h-1 bg-purple rounded-[99px]"
+                className="absolute top-0 left-0 h-[2px] bg-purple-light rounded-[99px] z-10"
                 style={{
                   width: duration ? `${(currentTime / duration) * 100}%` : "0%",
                 }}
               ></div>
 
-              {/* Progress Dot */}
+              {/* Start Progress Dot */}
               <div
-                className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-purple rounded-[99px] transition-all duration-100 ease-linear"
+                className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-purple-light rounded-[99px] transition-all duration-100 ease-linear z-20 cursor-pointer"
                 style={{
-                  left: duration ? `${(currentTime / duration) * 100}%` : "0%",
+                  left: duration ? `${(selectedStartTime / duration) * 100}%` : "0%",
                 }}
+                onMouseDown={(e) => handlePointerDown(e, 'start')}
+              ></div>
+
+              {/* End Progress Dot */}
+              <div
+                className="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 bg-purple-light rounded-[99px] transition-all duration-100 ease-linear z-20 cursor-pointer"
+                style={{
+                  left: duration
+                    ? `${(selectedEndTime / duration) * 100}%`
+                    : "0%",
+                }}
+                onMouseDown={(e) => handlePointerDown(e, 'end')}
               ></div>
             </div>
           </div>
