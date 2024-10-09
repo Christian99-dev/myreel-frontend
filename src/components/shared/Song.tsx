@@ -86,7 +86,7 @@ const Cover = ({ img, isPlaying }: { img: string; isPlaying: boolean }) => {
         <Icon name={isPlaying ? "pause" : "play"} color="pink-very-light" onlyCursor={true} />
       </div>
       {/* Bild */}
-      <img src={img} className={`${base} object-cover z-[10]`} alt={`${name} Cover`} />
+      <img src={img} className={`${base} h-full object-cover z-[10]`} alt={`${name} Cover`} />
     </div>
   );
 };
